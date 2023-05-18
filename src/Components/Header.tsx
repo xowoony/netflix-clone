@@ -63,7 +63,7 @@ const Search = styled.span`
   }
 `;
 
-const Circle = styled.span`
+const Circle = styled(motion.span)`
   position: absolute;
   width: 5px;
   height: 5px;
@@ -113,27 +113,31 @@ function Header() {
         </Link>
         <Items>
           <Item>
-            <Link to="/">홈{homeMatch && <Circle />}</Link>
+            <Link to="/">홈{homeMatch && <Circle layoutId="circle" />}</Link>
           </Item>
           <Item>
-            <Link to="/genre">시리즈{genreMatch && <Circle />}</Link>
+            <Link to="/genre">
+              시리즈{genreMatch && <Circle layoutId="circle" />}
+            </Link>
           </Item>
           <Item>
-            <Link to="/movie">영화{movieMatch && <Circle />}</Link>
+            <Link to="/movie">
+              영화{movieMatch && <Circle layoutId="circle" />}
+            </Link>
           </Item>
           <Item>
             <Link to="/latest">
-              NEW! 요즘 대세 콘텐츠{latestMatch && <Circle />}
+              NEW! 요즘 대세 콘텐츠{latestMatch && <Circle layoutId="circle" />}
             </Link>
           </Item>
           <Item>
             <Link to="/my-list">
-              내가 찜한 콘텐츠{mylistMatch && <Circle />}
+              내가 찜한 콘텐츠{mylistMatch && <Circle layoutId="circle" />}
             </Link>
           </Item>
           <Item>
             <Link to="/original-audio">
-              언어별로 찾아보기{audioMatch && <Circle />}
+              언어별로 찾아보기{audioMatch && <Circle layoutId="circle" />}
             </Link>
           </Item>
         </Items>
