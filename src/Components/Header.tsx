@@ -1,6 +1,8 @@
 import { Link, useMatch } from "react-router-dom";
 import styled from "styled-components";
-import { motion } from "framer-motion";
+import { motion, useAnimation, useScroll } from "framer-motion"; 
+// useScroll : motion value를 준다. 맨 밑에서부터 얼마나 멀리 있는지를 알려줌
+import { useState } from "react";
 
 // 헤더 (로고와 카테고리, 검색창)
 const Nav = styled.nav`
@@ -10,7 +12,6 @@ const Nav = styled.nav`
   position: fixed;
   width: 100%;
   top: 0;
-  background-color: black;
   font-size: 14px;
   padding: 20px 60px;
   color: white;
@@ -58,8 +59,13 @@ const Item = styled.li`
 
 const Search = styled.span`
   color: white;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  position: relative;
   svg {
     height: 25px;
+    /* margin-right: 3rem; */
   }
 `;
 
@@ -73,6 +79,21 @@ const Circle = styled(motion.span)`
   right: 0;
   margin: 0 auto;
   background-color: ${(props) => props.theme.red};
+`;
+
+// 검색창
+const Input = styled(motion.input)`
+  // transform-origin : 변화가 시작하는 위치를 의미함.
+  transform-origin: right center;
+  position: absolute;
+  right: 0px;
+  padding: 5px 10px;
+  padding-left: 40px;
+  z-index: -1;
+  color: white;
+  font-size: 16px;
+  background-color: transparent;
+  border: 1px solid ${(props) => props.theme.white.lighter};
 `;
 
 const logoVariants = {
@@ -89,12 +110,30 @@ const logoVariants = {
 };
 
 function Header() {
+  const [searchOpen, setSearchOpen] = useState(false);
   const homeMatch = useMatch("/");
   const genreMatch = useMatch("genre");
   const movieMatch = useMatch("movie");
   const latestMatch = useMatch("latest");
   const mylistMatch = useMatch("my-list");
   const audioMatch = useMatch("original-audio");
+  const inputAnimation = useAnimation();
+  // 애니메이션을 실행시키는 또 하나의 방법
+  // 애니메이션 상태변화에 의해서 실행되기 전에 애니메이션을 다른곳에서부터 실행시킴.
+  // (코드로부터 애니메이션을 실행시킴)
+  const toggleSearch = () => {
+    if (searchOpen) {
+      // trigger the close animation
+      inputAnimation.start({
+        scaleX: 0,
+      });
+    } else {
+      // trigger the open animation
+      inputAnimation.start({ scaleX: 1 });
+    }
+    setSearchOpen((prev) => !prev);
+  };
+
   return (
     <Nav>
       <Col>
@@ -144,7 +183,10 @@ function Header() {
       </Col>
       <Col>
         <Search>
-          <svg
+          <motion.svg
+            onClick={toggleSearch}
+            animate={{ x: searchOpen ? -210 : 0 }}
+            transition={{ type: "linear" }}
             fill="currentColor"
             viewBox="0 0 20 20"
             xmlns="http://www.w3.org/2000/svg"
@@ -154,7 +196,13 @@ function Header() {
               d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
               clipRule="evenodd"
             ></path>
-          </svg>
+          </motion.svg>
+          <Input
+            initial={{ scaleX: 0 }}
+            animate={inputAnimation}
+            transition={{ type: "linear" }}
+            placeholder="제목, 사람, 장르"
+          />
         </Search>
       </Col>
     </Nav>
