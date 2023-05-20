@@ -1,15 +1,8 @@
 import { Link, useMatch } from "react-router-dom";
 import styled from "styled-components";
-import {
-  motion,
-  useAnimation,
-  useMotionValueEvent,
-  useScroll,
-  useTransform,
-  useViewportScroll,
-} from "framer-motion";
+import { motion, useAnimation, useScroll, useTransform } from "framer-motion";
 // useScroll : motion value를 준다. 맨 밑에서부터 얼마나 멀리 있는지를 알려줌
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 // 헤더 (로고와 카테고리, 검색창)
 const Nav = styled(motion.nav)`
@@ -47,6 +40,7 @@ const Items = styled.ul`
   align-items: center;
 `;
 
+// 헤더 카테고리
 const Item = styled.li`
   font-family: Netflix Sans, Helvetica Neue, Segoe UI, Roboto, Ubuntu,
     sans-serif;
@@ -72,7 +66,6 @@ const Search = styled.span`
   position: relative;
   svg {
     height: 25px;
-    /* margin-right: 3rem; */
   }
 `;
 
@@ -103,6 +96,7 @@ const Input = styled(motion.input)`
   border: 1px solid ${(props) => props.theme.white.lighter};
 `;
 
+// logo Variants
 const logoVariants = {
   normal: {
     fillOpacity: 1,
@@ -145,11 +139,12 @@ function Header() {
   const { scrollY } = useScroll();
   const HeaderColor = useTransform(
     scrollY,
-    [0, 300],
-    ["rgba(0,0,0,0)", "rgba(0,0,0,0.8)"]
+    [0, 100],
+    ["rgba(0,0,0,0)", "rgba(0,0,0,0.7)"]
   );
 
   return (
+    // 헤더 전체
     <Nav style={{ backgroundColor: HeaderColor }}>
       <Col>
         <Link to="/">
