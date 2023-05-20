@@ -2,7 +2,7 @@ import { Link, useMatch } from "react-router-dom";
 import styled from "styled-components";
 import { motion, useAnimation, useScroll, useTransform } from "framer-motion";
 // useScroll : motion value를 준다. 맨 밑에서부터 얼마나 멀리 있는지를 알려줌
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 // 헤더 (로고와 카테고리, 검색창)
 const Nav = styled(motion.nav)`
