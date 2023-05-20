@@ -6,8 +6,6 @@ import App from "./App";
 import { createGlobalStyle } from "styled-components";
 import { theme } from "./theme";
 
-
-
 const GlobalStyle = createGlobalStyle`
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -40,6 +38,7 @@ footer, header, hgroup, main, menu, nav, section {
 }
 body {
   line-height: 1;
+  background-color: black;
 }
 menu, ol, ul {
   list-style: none;
@@ -70,8 +69,9 @@ a {
   text-decoration:none;
   color:inherit;
 }
-`;
 
+input:focus {outline: none;}
+`;
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement

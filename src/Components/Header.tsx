@@ -1,11 +1,18 @@
 import { Link, useMatch } from "react-router-dom";
 import styled from "styled-components";
-import { motion, useAnimation, useScroll } from "framer-motion"; 
+import {
+  motion,
+  useAnimation,
+  useMotionValueEvent,
+  useScroll,
+  useTransform,
+  useViewportScroll,
+} from "framer-motion";
 // useScroll : motion value를 준다. 맨 밑에서부터 얼마나 멀리 있는지를 알려줌
 import { useState } from "react";
 
 // 헤더 (로고와 카테고리, 검색창)
-const Nav = styled.nav`
+const Nav = styled(motion.nav)`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -134,8 +141,16 @@ function Header() {
     setSearchOpen((prev) => !prev);
   };
 
+  // 헤더 스크롤다운시 색 변경
+  const { scrollY } = useScroll();
+  const HeaderColor = useTransform(
+    scrollY,
+    [0, 300],
+    ["rgba(0,0,0,0)", "rgba(0,0,0,0.8)"]
+  );
+
   return (
-    <Nav>
+    <Nav style={{ backgroundColor: HeaderColor }}>
       <Col>
         <Link to="/">
           <Logo
@@ -186,7 +201,7 @@ function Header() {
           <motion.svg
             onClick={toggleSearch}
             animate={{ x: searchOpen ? -210 : 0 }}
-            transition={{ type: "linear" }}
+            transition={{ type: "linear", duration: 0.5 }}
             fill="currentColor"
             viewBox="0 0 20 20"
             xmlns="http://www.w3.org/2000/svg"
@@ -200,7 +215,7 @@ function Header() {
           <Input
             initial={{ scaleX: 0 }}
             animate={inputAnimation}
-            transition={{ type: "linear" }}
+            transition={{ duration: 0.5 }}
             placeholder="제목, 사람, 장르"
           />
         </Search>
