@@ -8,7 +8,7 @@ interface IMovie {
   poster_path: string;
   title: string;
   overview: string;
-  // video: boolean;
+
 }
 
 // GetMoviesResult(getMovies의 결과) 인터페이스 객체
