@@ -55,7 +55,7 @@ function Home() {
         <Loader>Loading...</Loader>
       ) : (
         <>
-          <Banner>
+          <Banner >
             <Title>{data?.results[0].title}</Title>
             <Overview>{data?.results[0].overview}</Overview>
           </Banner>
