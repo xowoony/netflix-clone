@@ -1,6 +1,7 @@
 import { useQuery } from "react-query";
 import { IGetMoviesResult, getMovies } from "./api";
 import { styled } from "styled-components";
+import { makeImagePath } from "../utils";
 
 const Wrapper = styled.div`
   background-color: black;
@@ -13,29 +14,31 @@ const Loader = styled.div`
   justify-content: center;
 `;
 
-const Banner = styled.div`
+const Banner = styled.div<{ bgPhoto: string }>`
   height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   padding: 60px;
+  background-image: url(${(props) => props.bgPhoto});
+  background-size: cover;
 `;
 
 const Title = styled.h2`
   font-size: 68px;
-  font-family: 'Carter One', cursive;
+  font-family: "Carter One", cursive;
   width: 40%;
+  color: ${(props) => props.theme.white.lighter};
 `;
 
-
 const Overview = styled.p`
-    color: #fff;
-    font-size: 1.2vw;
-    font-weight: 400;
-    line-height: normal;
-    margin-top: 0.1vw;
-    text-shadow: 2px 2px 4px rgba(0,0,0,.45);
-    width: 40%;
+  color: #fff;
+  font-size: 1.2vw;
+  font-weight: 400;
+  line-height: normal;
+  margin-top: 0.1vw;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.45);
+  width: 40%;
 `;
 
 function Home() {
@@ -55,7 +58,7 @@ function Home() {
         <Loader>Loading...</Loader>
       ) : (
         <>
-          <Banner >
+          <Banner bgPhoto={makeImagePath(data?.results[0].backdrop_path || "")}>
             <Title>{data?.results[0].title}</Title>
             <Overview>{data?.results[0].overview}</Overview>
           </Banner>

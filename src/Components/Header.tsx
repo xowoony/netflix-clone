@@ -15,6 +15,11 @@ const Nav = styled(motion.nav)`
   font-size: 14px;
   padding: 20px 60px;
   color: white;
+  background-image: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.7) 10%,
+    transparent
+  );
 `;
 
 // 헤더 컨테이너
@@ -25,7 +30,6 @@ const Col = styled.div`
 
 // 넷플릭스 로고
 const Logo = styled(motion.svg)`
-  margin-right: 45px;
   width: 95px;
   height: 25px;
   fill: ${(props) => props.theme.red};
@@ -147,7 +151,10 @@ function Header() {
     // 헤더 전체
     <Nav style={{ backgroundColor: HeaderColor }}>
       <Col>
-        <Link to="/">
+        <Link
+          to="/"
+          style={{ width: "95px", height: "25px", marginRight: "45px" }}
+        >
           <Logo
             variants={logoVariants}
             whileHover="active"
