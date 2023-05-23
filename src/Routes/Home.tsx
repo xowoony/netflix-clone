@@ -2,6 +2,7 @@ import { useQuery } from "react-query";
 import { IGetMoviesResult, getMovies } from "./api";
 import { styled } from "styled-components";
 import { makeImagePath } from "../utils";
+import { motion } from "framer-motion";
 
 const Wrapper = styled.div`
   background-color: black;
@@ -20,7 +21,12 @@ const Banner = styled.div<{ bgPhoto: string }>`
   flex-direction: column;
   justify-content: center;
   padding: 60px;
-  background-image: url(${(props) => props.bgPhoto});
+  background-image: linear-gradient(
+      rgba(0, 0, 0, 0.1),
+      rgba(0, 0, 0, 0.1),
+      rgba(0, 0, 0, 1)
+    ),
+    url(${(props) => props.bgPhoto}); // 배경 어두워지게 (cover)
   background-size: cover;
 `;
 
@@ -29,6 +35,23 @@ const Title = styled.h2`
   font-family: "Carter One", cursive;
   width: 40%;
   color: ${(props) => props.theme.white.lighter};
+`;
+
+
+// 슬라이더
+const Slider = styled.div`
+
+`;
+
+
+// 슬라이더 가로
+const Row = styled(motion.div)`
+
+`;
+
+// 슬라이더 안 박스
+const Box = styled(motion.div)`
+
 `;
 
 const Overview = styled.p`
@@ -62,6 +85,16 @@ function Home() {
             <Title>{data?.results[0].title}</Title>
             <Overview>{data?.results[0].overview}</Overview>
           </Banner>
+          <Slider>
+            <Row>
+              <Box />
+              <Box />
+              <Box />
+              <Box />
+              <Box />
+              <Box />
+            </Row>
+          </Slider>
         </>
       )}
     </Wrapper>
