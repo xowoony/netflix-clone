@@ -2,7 +2,8 @@ import { useQuery } from "react-query";
 import { IGetMoviesResult, getMovies } from "./api";
 import { styled } from "styled-components";
 import { makeImagePath } from "../utils";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import { useState } from "react";
 
 const Wrapper = styled.div`
   background-color: black;
@@ -37,21 +38,24 @@ const Title = styled.h2`
   color: ${(props) => props.theme.white.lighter};
 `;
 
-
 // 슬라이더
 const Slider = styled.div`
-
+  position: relative;
 `;
 
-
-// 슬라이더 가로
+// 슬라이더 row
 const Row = styled(motion.div)`
-
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 10px;
+  position: absolute;
+  width: 100%;
 `;
 
 // 슬라이더 안 박스
 const Box = styled(motion.div)`
-
+  background-color: white;
+  height: 200px;
 `;
 
 const Overview = styled.p`
@@ -64,6 +68,22 @@ const Overview = styled.p`
   width: 40%;
 `;
 
+// variants
+const rowVariansts = {
+  // 안보일 때
+  hidden: {
+    x: 1000,
+  },
+  // 보일 때
+  visible: {
+    x: 0,
+  },
+  // 사라질 때
+  exit: {
+    x: -1000,
+  },
+};
+
 function Home() {
   // useQuery
   // 기본적으로 key를 제공해주어야 한다. (문자열 or 배열)
@@ -73,7 +93,11 @@ function Home() {
     ["movies", "nowPlaying"],
     getMovies
   ); // movies, nowPlaying => 식별자
-  console.log(data, isLoading);
+
+  // index 시스템 : 작성해주고 밑에서 이 index를 Row의 key로 넘겨줌
+  const [index, setIndex] = useState(0);
+  // index를 증가시키는 함수
+  const increaseIndex = () => setIndex((prev) => prev + 1);
   // <></> 공통된 부모 없이 연이어 리턴하기
   return (
     <Wrapper>
@@ -81,19 +105,28 @@ function Home() {
         <Loader>Loading...</Loader>
       ) : (
         <>
-          <Banner bgPhoto={makeImagePath(data?.results[0].backdrop_path || "")}>
+          <Banner onClick={increaseIndex}  bgPhoto={makeImagePath(data?.results[0].backdrop_path || "")}>
             <Title>{data?.results[0].title}</Title>
             <Overview>{data?.results[0].overview}</Overview>
           </Banner>
           <Slider>
-            <Row>
-              <Box />
-              <Box />
-              <Box />
-              <Box />
-              <Box />
-              <Box />
-            </Row>
+            {/* Row를 AnimatePresence로 감싸서 key를 넘겨주어 render해줌. */}
+            <AnimatePresence>
+              <Row
+                variants={rowVariansts}
+                initial="hidden"
+                animate="visible"
+                exit="exit"
+                key={index}
+              >
+                <Box />
+                <Box />
+                <Box />
+                <Box />
+                <Box />
+                <Box />
+              </Row>
+            </AnimatePresence>
           </Slider>
         </>
       )}
