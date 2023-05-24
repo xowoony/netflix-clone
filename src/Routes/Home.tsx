@@ -41,6 +41,7 @@ const Title = styled.h2`
 // 슬라이더
 const Slider = styled.div`
   position: relative;
+  top: -65px;
 `;
 
 // 슬라이더 row
