@@ -56,6 +56,8 @@ const Row = styled(motion.div)`
 const Box = styled(motion.div)`
   background-color: white;
   height: 200px;
+  color: red;
+  font-size: 64px;
 `;
 
 const Overview = styled.p`
@@ -68,11 +70,11 @@ const Overview = styled.p`
   width: 40%;
 `;
 
-// variants
-const rowVariansts = {
-  // 안보일 때
+// 슬라이더 - variants
+const rowVariants = {
+  // 안보일 때 x: 사용자의 화면 크기를 받아와야 함.
   hidden: {
-    x: 1000,
+    x: window.outerWidth + 10, // 1과 6이 붙어있기 때문에 +10
   },
   // 보일 때
   visible: {
@@ -80,7 +82,7 @@ const rowVariansts = {
   },
   // 사라질 때
   exit: {
-    x: -1000,
+    x: -window.outerWidth - 10,
   },
 };
 
@@ -105,26 +107,29 @@ function Home() {
         <Loader>Loading...</Loader>
       ) : (
         <>
-          <Banner onClick={increaseIndex}  bgPhoto={makeImagePath(data?.results[0].backdrop_path || "")}>
+          <Banner
+            onClick={increaseIndex}
+            bgPhoto={makeImagePath(data?.results[0].backdrop_path || "")}
+          >
             <Title>{data?.results[0].title}</Title>
             <Overview>{data?.results[0].overview}</Overview>
           </Banner>
           <Slider>
+            {/* 슬라이더. variants 적용 */}
             {/* Row를 AnimatePresence로 감싸서 key를 넘겨주어 render해줌. */}
             <AnimatePresence>
               <Row
-                variants={rowVariansts}
+                variants={rowVariants}
                 initial="hidden"
                 animate="visible"
-                exit="exit"
-                key={index}
+                exit="exit" // 원래의 Row가 파괴될 때 exit이 실행됨
+                transition={{ type: "tween", duration: 1 }}
+                key={index} // key만 바꿔줌. key가 변경되면 새로운 Row가 만들어졌다고 생각함.
+                // 그리고 원래 있던 Row는 파괴된다.
               >
-                <Box />
-                <Box />
-                <Box />
-                <Box />
-                <Box />
-                <Box />
+                {[1, 2, 3, 4, 5, 6].map((i) => (
+                  <Box key={i}>{i}</Box>
+                ))}
               </Row>
             </AnimatePresence>
           </Slider>
