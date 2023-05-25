@@ -48,7 +48,7 @@ const Slider = styled.div`
 const Row = styled(motion.div)`
   display: grid;
   grid-template-columns: repeat(6, 1fr);
-  gap: 10px;
+  gap: 5px;
   position: absolute;
   width: 100%;
 `;
@@ -75,7 +75,7 @@ const Overview = styled.p`
 const rowVariants = {
   // 안보일 때 x: 사용자의 화면 크기를 받아와야 함.
   hidden: {
-    x: window.outerWidth + 10, // 1과 6이 붙어있기 때문에 +10
+    x: window.outerWidth + 5, // 1과 6이 붙어있기 때문에 +10
   },
   // 보일 때
   visible: {
@@ -99,8 +99,20 @@ function Home() {
 
   // index 시스템 : 작성해주고 밑에서 이 index를 Row의 key로 넘겨줌
   const [index, setIndex] = useState(0);
+
+  // 슬라이더 빨리 누를때 간격 벌어지는 것 해결
+  const [leaving, setLeaving] = useState(false);
+
   // index를 증가시키는 함수
-  const increaseIndex = () => setIndex((prev) => prev + 1);
+  const increaseIndex = () => {
+    if (leaving) return; // 한번 더 클릭하면 leaving이 true가 되어 리턴되어 아무일도 일어나지 않음.
+    setLeaving(true);
+    setIndex((prev) => prev + 1);
+  };
+
+  // toggle leaving
+  const toggleLeaving = () => setLeaving((prev) => !prev);
+
   // <></> 공통된 부모 없이 연이어 리턴하기
   return (
     <Wrapper>
@@ -118,7 +130,9 @@ function Home() {
           <Slider>
             {/* 슬라이더. variants 적용 */}
             {/* Row를 AnimatePresence로 감싸서 key를 넘겨주어 render해줌. */}
-            <AnimatePresence>
+            {/* onExitComplete에 함수를 넣으면 exit이 끝났을 때 실행됨 */}
+            {/* initial을 false로 주면 처음 home에 들어왔을때 슬라이드가 움직이지 않고 고정되어 있음. */}
+            <AnimatePresence initial={false} onExitComplete={toggleLeaving}>
               <Row
                 variants={rowVariants}
                 initial="hidden"
