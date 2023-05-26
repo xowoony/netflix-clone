@@ -57,8 +57,8 @@ const Row = styled(motion.div)`
 const Box = styled(motion.div)`
   background-color: white;
   height: 200px;
-  color: red;
-  font-size: 64px;
+  color: black;
+  font-size: 30px;
 `;
 
 const Overview = styled.p`
@@ -87,6 +87,9 @@ const rowVariants = {
   },
 };
 
+// 페지네이션
+const offset = 6; // 한번에 보여주고자 하는 영화의 수. 그리고 밑 Box에서 모든 영화가 담긴 배열을 자르면 됨.
+
 function Home() {
   // useQuery
   // 기본적으로 key를 제공해주어야 한다. (문자열 or 배열)
@@ -105,9 +108,17 @@ function Home() {
 
   // index를 증가시키는 함수
   const increaseIndex = () => {
-    if (leaving) return; // 한번 더 클릭하면 leaving이 true가 되어 리턴되어 아무일도 일어나지 않음.
-    setLeaving(true);
-    setIndex((prev) => prev + 1);
+    // if문을 써줌으로 인해 data는 반드시 number일 것이다.
+    if (data) {
+      if (leaving) return; // 한번 더 클릭하면 leaving이 true가 되어 리턴되어 아무일도 일어나지 않음.
+      setLeaving(true);
+      // 영화 갯수 알아보기
+      const totalMovie = data.results.length - 1; // 이미 영화 하나는 사용하고 있기 때문에 -1
+      // page가 0에서부터 시작하기 때문에  maxIndex도 1을 감소시켜주어야 한다.
+      const maxIndex = Math.ceil(totalMovie / offset); // ex ) 4.2와 같을 경우 올림처리
+      setIndex((prev) => (prev === maxIndex ? 0 : prev + 1)); // index를 증가시키긴 하는데
+      // maxindex일 경우 0으로, 아닐경우 +1
+    }
   };
 
   // toggle leaving
@@ -142,9 +153,17 @@ function Home() {
                 key={index} // key만 바꿔줌. key가 변경되면 새로운 Row가 만들어졌다고 생각함.
                 // 그리고 원래 있던 Row는 파괴된다.
               >
-                {[1, 2, 3, 4, 5, 6].map((i) => (
-                  <Box key={i}>{i}</Box>
-                ))}
+                {/* slice(1) 을 해주는 이유는 이미 홈의 배경화면으로 쓴 사진은 제외시켜주어야 하기 때문. */}
+                {/* offset*index에서 index는 페이지임. 0, 1, 2, 3 이런식으로 증가함. */}
+                {/* index가 너무 높아지면 문제가 생김. 영화 갯수에 한계가 있기 때문 */}
+                {/* 페이징 */}
+                {data?.results
+                  .slice(1)
+                  .slice(offset * index, offset * index + offset)
+                  .map((movie) => (
+                    <Box key={movie.id}>{movie.title}</Box>
+                    // 9:50
+                  ))}
               </Row>
             </AnimatePresence>
           </Slider>
@@ -161,4 +180,8 @@ export default Home;
 
 [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18].slice(0, 2)
 
-처음에 page는 0이고 offset은 6이니까 6 * 0을 해서 0이 될 것임.*/
+처음에 page는 0이고 offset은 6이니까 6 * 0을 해서 0이 될 것임.
+[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18].slice(offset*page, offset*page + offset)
+
+그럼 0에서 시작해서 6에서 끝나게 됨.
+*/
