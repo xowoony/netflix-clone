@@ -7,6 +7,7 @@ import { useState } from "react";
 
 const Wrapper = styled.div`
   background-color: black;
+  padding-bottom: 200px;
 `;
 
 const Loader = styled.div`
