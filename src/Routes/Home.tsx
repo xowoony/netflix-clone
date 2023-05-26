@@ -53,10 +53,13 @@ const Row = styled(motion.div)`
   width: 100%;
 `;
 
-// 슬라이더 안 박스
-const Box = styled(motion.div)`
+// 슬라이더 안 박스 : bgPhoto를 작성해주고 background-image를 작성해주면 된다.
+const Box = styled(motion.div)<{ bgPhoto: string }>`
   background-color: white;
-  height: 200px;
+  background-image: url(${(props) => props.bgPhoto});
+  background-size: cover;
+  background-position: center center;
+  height: 150px;
   color: black;
   font-size: 30px;
 `;
@@ -83,7 +86,7 @@ const rowVariants = {
   },
   // 사라질 때
   exit: {
-    x: -window.outerWidth - 10,
+    x: -window.outerWidth - 5,
   },
 };
 
@@ -115,7 +118,7 @@ function Home() {
       // 영화 갯수 알아보기
       const totalMovie = data.results.length - 1; // 이미 영화 하나는 사용하고 있기 때문에 -1
       // page가 0에서부터 시작하기 때문에  maxIndex도 1을 감소시켜주어야 한다.
-      const maxIndex = Math.ceil(totalMovie / offset); // ex ) 4.2와 같을 경우 올림처리
+      const maxIndex = Math.floor(totalMovie / offset) - 1; // ex ) 4.2와 같을 경우 올림처리
       setIndex((prev) => (prev === maxIndex ? 0 : prev + 1)); // index를 증가시키긴 하는데
       // maxindex일 경우 0으로, 아닐경우 +1
     }
@@ -161,7 +164,10 @@ function Home() {
                   .slice(1)
                   .slice(offset * index, offset * index + offset)
                   .map((movie) => (
-                    <Box key={movie.id}>{movie.title}</Box>
+                    <Box
+                      key={movie.id}
+                      bgPhoto={makeImagePath(movie.backdrop_path, "w500")} // 영화 슬라이드 사진 w500 작성으로 크기 조절
+                    ></Box>
                     // 9:50
                   ))}
               </Row>
