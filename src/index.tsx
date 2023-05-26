@@ -37,6 +37,11 @@ footer, header, hgroup, main, menu, nav, section {
 *[hidden] {
     display: none;
 }
+
+html {
+  overflow-x: hidden;
+}
+
 body {
   line-height: 1;
   background-color: #c5c5c5;
