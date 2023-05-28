@@ -4,6 +4,7 @@ import { styled } from "styled-components";
 import { makeImagePath } from "../utils";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
+import useWindowDimensions from "../Components/WindowDimensions";
 
 const Wrapper = styled.div`
   background-color: black;
@@ -76,20 +77,20 @@ const Overview = styled.p`
 `;
 
 // 슬라이더 - variants
-const rowVariants = {
-  // 안보일 때 x: 사용자의 화면 크기를 받아와야 함.
-  hidden: {
-    x: window.outerWidth + 5, // 1과 6이 붙어있기 때문에 +10
-  },
-  // 보일 때
-  visible: {
-    x: 0,
-  },
-  // 사라질 때
-  exit: {
-    x: -window.outerWidth - 5,
-  },
-};
+// const rowVariants = {
+//   // 안보일 때 x: 사용자의 화면 크기를 받아와야 함.
+//   hidden: {
+//     x: window.outerWidth + 5, // 1과 6이 붙어있기 때문에 +10
+//   },
+//   // 보일 때
+//   visible: {
+//     x: 0,
+//   },
+//   // 사라질 때
+//   exit: {
+//     x: -window.outerWidth - 5,
+//   },
+// };
 
 // 페지네이션
 const offset = 6; // 한번에 보여주고자 하는 영화의 수. 그리고 밑 Box에서 모든 영화가 담긴 배열을 자르면 됨.
@@ -128,6 +129,9 @@ function Home() {
   // toggle leaving
   const toggleLeaving = () => setLeaving((prev) => !prev);
 
+  // 슬라이드 겹침현상 해결하기
+  const width = useWindowDimensions();
+
   // <></> 공통된 부모 없이 연이어 리턴하기
   return (
     <Wrapper>
@@ -149,10 +153,9 @@ function Home() {
             {/* initial을 false로 주면 처음 home에 들어왔을때 슬라이드가 움직이지 않고 고정되어 있음. */}
             <AnimatePresence initial={false} onExitComplete={toggleLeaving}>
               <Row
-                variants={rowVariants}
-                initial="hidden"
-                animate="visible"
-                exit="exit" // 원래의 Row가 파괴될 때 exit이 실행됨
+                initial={{ x: width + 10 }}
+                animate={{ x: 0 }}
+                exit={{ x: -width - 10 }}
                 transition={{ type: "tween", duration: 1 }}
                 key={index} // key만 바꿔줌. key가 변경되면 새로운 Row가 만들어졌다고 생각함.
                 // 그리고 원래 있던 Row는 파괴된다.
