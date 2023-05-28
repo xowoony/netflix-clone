@@ -1,3 +1,5 @@
+// 슬라이드 넘길 때 겹치는 현상 해결을 위해 width 추적
+
 import { useEffect, useState } from "react";
 
 function getWindowDimensions() {

@@ -18,7 +18,7 @@ const Loader = styled.div`
   justify-content: center;
 `;
 
-const Banner = styled.div<{ bgPhoto: string }>`
+const Banner = styled.div<{ $bgPhoto: string }>`
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -29,7 +29,7 @@ const Banner = styled.div<{ bgPhoto: string }>`
       rgba(0, 0, 0, 0.1),
       rgba(0, 0, 0, 1)
     ),
-    url(${(props) => props.bgPhoto}); // 배경 어두워지게 (cover)
+    url(${(props) => props.$bgPhoto}); // 배경 어두워지게 (cover)
   background-size: cover;
 `;
 
@@ -56,9 +56,9 @@ const Row = styled(motion.div)`
 `;
 
 // 슬라이더 안 박스 : bgPhoto를 작성해주고 background-image를 작성해주면 된다.
-const Box = styled(motion.div)<{ bgPhoto: string }>`
+const Box = styled(motion.div)<{ $bgPhoto: string }>`
   background-color: white;
-  background-image: url(${(props) => props.bgPhoto});
+  background-image: url(${(props) => props.$bgPhoto});
   background-size: cover;
   background-position: center center;
   height: 150px;
@@ -141,7 +141,7 @@ function Home() {
         <>
           <Banner
             onClick={increaseIndex}
-            bgPhoto={makeImagePath(data?.results[0].backdrop_path || "")}
+            $bgPhoto={makeImagePath(data?.results[0].backdrop_path || "")}
           >
             <Title>{data?.results[0].title}</Title>
             <Overview>{data?.results[0].overview}</Overview>
@@ -153,7 +153,7 @@ function Home() {
             {/* initial을 false로 주면 처음 home에 들어왔을때 슬라이드가 움직이지 않고 고정되어 있음. */}
             <AnimatePresence initial={false} onExitComplete={toggleLeaving}>
               <Row
-                initial={{ x: width + 10 }}
+                initial={{ x: width + 10 }} // variants를 없애고 컴포넌트에 직접 initial, animate, exit prop을 전달하여 슬라이드 겹침 현상을 해결
                 animate={{ x: 0 }}
                 exit={{ x: -width - 10 }}
                 transition={{ type: "tween", duration: 1 }}
@@ -170,7 +170,7 @@ function Home() {
                   .map((movie) => (
                     <Box
                       key={movie.id}
-                      bgPhoto={makeImagePath(movie.backdrop_path, "w500")} // 영화 슬라이드 사진 w500 작성으로 크기 조절
+                      $bgPhoto={makeImagePath(movie.backdrop_path, "w500")} // 영화 슬라이드 사진 w500 작성으로 크기 조절
                     ></Box>
                     // 9:50
                   ))}
