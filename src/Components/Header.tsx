@@ -91,7 +91,7 @@ const Input = styled(motion.input)`
   transform-origin: right center;
   position: absolute;
   right: 0px;
-  padding: 5px 10px;
+  padding: 9px 9px;
   padding-left: 40px;
   z-index: -1;
   color: white;

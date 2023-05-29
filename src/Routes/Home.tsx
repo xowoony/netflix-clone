@@ -53,10 +53,12 @@ const Row = styled(motion.div)`
   gap: 5px;
   position: absolute;
   width: 100%;
+
 `;
 
 // 슬라이더 안 박스 : bgPhoto를 작성해주고 background-image를 작성해주면 된다.
 const Box = styled(motion.div)<{ $bgPhoto: string }>`
+  border-radius: 0.2vw;
   background-color: white;
   background-image: url(${(props) => props.$bgPhoto});
   background-size: cover;
@@ -64,6 +66,7 @@ const Box = styled(motion.div)<{ $bgPhoto: string }>`
   height: 150px;
   color: black;
   font-size: 30px;
+  cursor: pointer;
 `;
 
 const Overview = styled.p`
@@ -97,8 +100,17 @@ const offset = 6; // 한번에 보여주고자 하는 영화의 수. 그리고 �
 
 // variants
 const BoxVariants = {
-  normal: { scale: 1 },
-  hover: { scale: 1.3, transition: { delay: 0.4 } }, // hover 상태에서만 따로 딜레이 주기
+  normal: {
+    scale: 1,
+  },
+  hover: {
+    scale: 1.3,
+    y: -50,
+    transition: {
+      delay: 0.4,
+      type: "tween",
+    },
+  }, // hover 상태에서만 따로 딜레이 주기
 };
 
 function Home() {
@@ -179,6 +191,7 @@ function Home() {
                       variants={BoxVariants}
                       whileHover="hover" // hover시 1.3배
                       initial="normal"
+                      transition={{ type: "tween" }}
                       $bgPhoto={makeImagePath(movie.backdrop_path, "w500")} // 영화 슬라이드 사진 w500 작성으로 크기 조절
                     ></Box>
                   ))}
