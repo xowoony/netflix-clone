@@ -115,6 +115,7 @@ const BoxVariants = {
     y: -50,
     transition: {
       delay: 0.4,
+      duration: 0.3,
       type: "tween",
     },
   }, // hover 상태에서만 따로 딜레이 주기
