@@ -53,7 +53,6 @@ const Row = styled(motion.div)`
   gap: 5px;
   position: absolute;
   width: 100%;
-
 `;
 
 // 슬라이더 안 박스 : bgPhoto를 작성해주고 background-image를 작성해주면 된다.
@@ -67,6 +66,14 @@ const Box = styled(motion.div)<{ $bgPhoto: string }>`
   color: black;
   font-size: 30px;
   cursor: pointer;
+  // 첫번째 박스 hover시 확대 될 때 왼쪽이 잘리지 않게 하기 위해
+  &:first-child {
+    transform-origin: center left;
+  }
+  // 마지막 박스 hover시 확대 될 때 오른쪽이 잘리지 않게 하기 위해
+  &:last-child {
+    transform-origin: center right;
+  }
 `;
 
 const Overview = styled.p`
