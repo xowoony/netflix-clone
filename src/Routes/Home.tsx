@@ -95,6 +95,12 @@ const Overview = styled.p`
 // 페지네이션
 const offset = 6; // 한번에 보여주고자 하는 영화의 수. 그리고 밑 Box에서 모든 영화가 담긴 배열을 자르면 됨.
 
+// variants
+const BoxVariants = {
+  normal: { scale: 1 },
+  hover: { scale: 1.3, transition: { delay: 0.4 } }, // hover 상태에서만 따로 딜레이 주기
+};
+
 function Home() {
   // useQuery
   // 기본적으로 key를 제공해주어야 한다. (문자열 or 배열)
@@ -170,9 +176,11 @@ function Home() {
                   .map((movie) => (
                     <Box
                       key={movie.id}
+                      variants={BoxVariants}
+                      whileHover="hover" // hover시 1.3배
+                      initial="normal"
                       $bgPhoto={makeImagePath(movie.backdrop_path, "w500")} // 영화 슬라이드 사진 w500 작성으로 크기 조절
                     ></Box>
-                    // 9:50
                   ))}
               </Row>
             </AnimatePresence>
