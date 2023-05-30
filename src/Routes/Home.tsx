@@ -55,6 +55,16 @@ const Row = styled(motion.div)`
   width: 100%;
 `;
 
+const Overview = styled.p`
+  color: #fff;
+  font-size: 1.2vw;
+  font-weight: 400;
+  line-height: normal;
+  margin-top: 0.1vw;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.45);
+  width: 40%;
+`;
+
 // 슬라이더 안 박스 : bgPhoto를 작성해주고 background-image를 작성해주면 된다.
 const Box = styled(motion.div)<{ $bgPhoto: string }>`
   border-radius: 0.2vw;
@@ -66,6 +76,7 @@ const Box = styled(motion.div)<{ $bgPhoto: string }>`
   color: black;
   font-size: 30px;
   cursor: pointer;
+  position: relative; // 요소 자기 자신을 기준으로 배치
   // 첫번째 박스 hover시 확대 될 때 왼쪽이 잘리지 않게 하기 위해
   &:first-child {
     transform-origin: center left;
@@ -76,14 +87,18 @@ const Box = styled(motion.div)<{ $bgPhoto: string }>`
   }
 `;
 
-const Overview = styled.p`
-  color: #fff;
-  font-size: 1.2vw;
-  font-weight: 400;
-  line-height: normal;
-  margin-top: 0.1vw;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.45);
-  width: 40%;
+// box hover시 나타나는 info
+const Info = styled(motion.div)`
+  padding: 10px;
+  background-color: ${(props) => props.theme.black.lighter};
+  opacity: 0;
+  position: absolute; // 부모(조상) 요소를 기준으로 배치
+  width: 100%;
+  bottom: 0;
+  h4 {
+    text-align: center;
+    font-size: 18px;
+  }
 `;
 
 // 슬라이더 - variants
@@ -105,12 +120,13 @@ const Overview = styled.p`
 // 페지네이션
 const offset = 6; // 한번에 보여주고자 하는 영화의 수. 그리고 밑 Box에서 모든 영화가 담긴 배열을 자르면 됨.
 
-// variants
-const BoxVariants = {
+// variants - infoVariants의 부모
+const boxVariants = {
   normal: {
     scale: 1,
   },
   hover: {
+    zIndex: 99, // hover시 안겹치게
     scale: 1.3,
     y: -50,
     transition: {
@@ -119,6 +135,20 @@ const BoxVariants = {
       type: "tween",
     },
   }, // hover 상태에서만 따로 딜레이 주기
+};
+
+// infoVariants - infoVariants의 자식
+const infoVariants = {
+  // 같은 key (hover) 를 가진 자식이므로 부모와 똑같이 작동함
+  hover: {
+    opacity: 1,
+    transition: {
+      delay: 0.4,
+      duration: 0.3,
+      type: "tween",
+    }, // hover시 opacity 가 1이고 위에서 Info 스타일링 해준 곳에서는 0으로 설정
+  },
+  
 };
 
 function Home() {
@@ -196,12 +226,17 @@ function Home() {
                   .map((movie) => (
                     <Box
                       key={movie.id}
-                      variants={BoxVariants}
+                      variants={boxVariants}
                       whileHover="hover" // hover시 1.3배
                       initial="normal"
                       transition={{ type: "tween" }}
                       $bgPhoto={makeImagePath(movie.backdrop_path, "w500")} // 영화 슬라이드 사진 w500 작성으로 크기 조절
-                    ></Box>
+                    >
+                      {/* <Info /> 부모인 Box 의 whileHover도 상속됨 */}
+                      <Info variants={infoVariants}>
+                        <h4>{movie.title}</h4>
+                      </Info>
+                    </Box>
                   ))}
               </Row>
             </AnimatePresence>

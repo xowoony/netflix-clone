@@ -91,12 +91,12 @@ const Input = styled(motion.input)`
   transform-origin: right center;
   position: absolute;
   right: 0px;
-  padding: 9px 9px;
-  padding-left: 40px;
+  padding: 9px 17px;
+  padding-left: 57px;
   z-index: -1;
   color: white;
-  font-size: 16px;
-  background-color: transparent;
+  font-size: 14px;
+  background-color: #00000085;
   border: 1px solid ${(props) => props.theme.white.lighter};
 `;
 
@@ -113,6 +113,7 @@ const logoVariants = {
     },
   },
 };
+
 
 function Header() {
   const [searchOpen, setSearchOpen] = useState(false);
@@ -215,6 +216,7 @@ function Header() {
             ></path>
           </motion.svg>
           <Input
+            autoFocus
             initial={{ scaleX: 0 }}
             animate={inputAnimation}
             transition={{ duration: 0.5 }}
