@@ -5,6 +5,7 @@ import { makeImagePath } from "../utils";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import useWindowDimensions from "../Components/WindowDimensions";
+import { useNavigate } from "react-router-dom";
 
 const Wrapper = styled.div`
   background-color: black;
@@ -133,7 +134,7 @@ const boxVariants = {
       duration: 0.3,
       type: "tween",
     },
-  }, 
+  },
 };
 
 // infoVariants - infoVariants의 자식
@@ -147,10 +148,12 @@ const infoVariants = {
       type: "tween",
     }, // hover시 opacity 가 1이고 위에서 Info 스타일링 해준 곳에서는 0으로 설정
   },
-  
 };
 
 function Home() {
+  // box hover시 나오는 info =>  url을 바꾸어주기 위해 Navigate object에 접근
+  // useNavigate 훅을 사용하면 URL을 왔다갔다 할 수 있음.(여러 route 사이를 움직일 수 있음)
+  const navigate = useNavigate();
   // useQuery
   // 기본적으로 key를 제공해주어야 한다. (문자열 or 배열)
   // getMovies 로 api를 가져옴.
@@ -188,9 +191,10 @@ function Home() {
   const width = useWindowDimensions();
 
   // Box 클릭시 url 바꿔주기
-  const onBoxClicked = (movieId:number) => { // movieId를 인자로 받음(클릭한 영화의 id를 알아야 하기 때문)
-
-  }
+  const onBoxClicked = (movieId: number) => {
+    // movieId를 인자로 받음(클릭한 영화의 id를 알아야 하기 때문)
+    navigate(`/movies/${movieId}`);
+  };
   // <></> 공통된 부모 없이 연이어 리턴하기
   return (
     <Wrapper>
@@ -232,6 +236,7 @@ function Home() {
                       variants={boxVariants}
                       whileHover="hover" // hover시 1.3배
                       initial="normal"
+                      onClick={() => onBoxClicked(movie.id)}
                       transition={{ type: "tween" }}
                       $bgPhoto={makeImagePath(movie.backdrop_path, "w500")} // 영화 슬라이드 사진 w500 작성으로 크기 조절
                     >
