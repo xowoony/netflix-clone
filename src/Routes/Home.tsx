@@ -76,7 +76,7 @@ const Box = styled(motion.div)<{ $bgPhoto: string }>`
   color: black;
   font-size: 30px;
   cursor: pointer;
-  position: relative; // 요소 자기 자신을 기준으로 배치
+  /* position: relative; // 요소 자기 자신을 기준으로 배치 */
   // 첫번째 박스 hover시 확대 될 때 왼쪽이 잘리지 않게 하기 위해
   &:first-child {
     transform-origin: center left;
@@ -126,15 +126,14 @@ const boxVariants = {
     scale: 1,
   },
   hover: {
-    zIndex: 99, // hover시 안겹치게
     scale: 1.3,
     y: -50,
     transition: {
-      delay: 0.4,
+      delay: 0.4, // hover 상태에서만 따로 딜레이 주기
       duration: 0.3,
       type: "tween",
     },
-  }, // hover 상태에서만 따로 딜레이 주기
+  }, 
 };
 
 // infoVariants - infoVariants의 자식
@@ -188,6 +187,10 @@ function Home() {
   // 슬라이드 겹침현상 해결하기
   const width = useWindowDimensions();
 
+  // Box 클릭시 url 바꿔주기
+  const onBoxClicked = (movieId:number) => { // movieId를 인자로 받음(클릭한 영화의 id를 알아야 하기 때문)
+
+  }
   // <></> 공통된 부모 없이 연이어 리턴하기
   return (
     <Wrapper>
@@ -232,6 +235,7 @@ function Home() {
                       transition={{ type: "tween" }}
                       $bgPhoto={makeImagePath(movie.backdrop_path, "w500")} // 영화 슬라이드 사진 w500 작성으로 크기 조절
                     >
+                      {/* <img></img> */}
                       {/* <Info /> 부모인 Box 의 whileHover도 상속됨 */}
                       <Info variants={infoVariants}>
                         <h4>{movie.title}</h4>
