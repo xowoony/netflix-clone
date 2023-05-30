@@ -5,7 +5,7 @@ import { makeImagePath } from "../utils";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import useWindowDimensions from "../Components/WindowDimensions";
-import { useNavigate } from "react-router-dom";
+import { useMatch, PathMatch, useNavigate } from "react-router-dom";
 
 const Wrapper = styled.div`
   background-color: black;
@@ -151,9 +151,13 @@ const infoVariants = {
 };
 
 function Home() {
+  // useHistory() => useNavigate() 로 바뀜
   // box hover시 나오는 info =>  url을 바꾸어주기 위해 Navigate object에 접근
   // useNavigate 훅을 사용하면 URL을 왔다갔다 할 수 있음.(여러 route 사이를 움직일 수 있음)
   const navigate = useNavigate();
+  // match
+  const bigMovieMatch: PathMatch<string> | null = useMatch("/movies/:id");
+  console.log(bigMovieMatch);
   // useQuery
   // 기본적으로 key를 제공해주어야 한다. (문자열 or 배열)
   // getMovies 로 api를 가져옴.
@@ -232,6 +236,7 @@ function Home() {
                   .slice(offset * index, offset * index + offset)
                   .map((movie) => (
                     <Box
+                      layoutId={movie.id + ""} // + "" 작성으로 string으로 변환 (movie.id는 number이기 때문)
                       key={movie.id}
                       variants={boxVariants}
                       whileHover="hover" // hover시 1.3배
@@ -250,6 +255,25 @@ function Home() {
               </Row>
             </AnimatePresence>
           </Slider>
+          {/* 영화정보 팝업 - url이 있을 경우에만 (영화 클릭시에만) 나타나게. */}
+          <AnimatePresence>
+            {bigMovieMatch ? (
+              <motion.div
+                layoutId={bigMovieMatch.params.movieId} // 위 Box 컴포넌트 layoutId랑 같이 작성. match
+                style={{
+                  position: "absolute",
+                  width: "850px",
+                  height: "479px",
+                  borderRadius: "10px",
+                  backgroundColor: "rgb(23, 22, 22)",
+                  top: 50,
+                  left: 0,
+                  right: 0,
+                  margin: "0 auto",
+                }}
+              />
+            ) : null}
+          </AnimatePresence>
         </>
       )}
     </Wrapper>

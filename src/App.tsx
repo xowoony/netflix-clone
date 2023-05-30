@@ -15,7 +15,7 @@ function App() {
       <Routes>
         {/* 중첩 라우팅으로 두개 다 Home을 render할 수 있게 함.*/}
         <Route path="/" element={<Home />}>
-          <Route path="movies/:id" element={<Home />} />
+          <Route path="movies/:movieId" element={<Home />} />
         </Route>
         <Route path="/genre" element={<Genre />}></Route>
         <Route path="/movie" element={<Movie />}></Route>
