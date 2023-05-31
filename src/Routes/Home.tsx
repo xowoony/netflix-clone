@@ -103,6 +103,16 @@ const Info = styled(motion.div)`
   }
 `;
 
+// overlay - 사용자가 overlay를 클릭시 팝업이 사라지게 해야함.
+const Overlay = styled(motion.div)`
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+`;
+
 // 슬라이더 - variants
 // const rowVariants = {
 //   // 안보일 때 x: 사용자의 화면 크기를 받아와야 함.
@@ -200,6 +210,10 @@ function Home() {
     // movieId를 인자로 받음(클릭한 영화의 id를 알아야 하기 때문)
     navigate(`/movies/${movieId}`);
   };
+
+  // 영화정보 팝업창 뜬 다음 바깥쪽 (overlay) 클릭시 팝업창 사라지게
+  const onOverlayClick = () => navigate(-1);
+
   // <></> 공통된 부모 없이 연이어 리턴하기
   return (
     <Wrapper>
@@ -258,20 +272,29 @@ function Home() {
           {/* 영화정보 팝업 - url이 있을 경우에만 (영화 클릭시에만) 나타나게. */}
           <AnimatePresence>
             {bigMovieMatch ? (
-              <motion.div
-                layoutId={bigMovieMatch.params.movieId} // 위 Box 컴포넌트 layoutId랑 같이 작성. match
-                style={{
-                  position: "absolute",
-                  width: "850px",
-                  height: "479px",
-                  borderRadius: "10px",
-                  backgroundColor: "rgb(23, 22, 22)",
-                  top: 50,
-                  left: 0,
-                  right: 0,
-                  margin: "0 auto",
-                }}
-              />
+              <>
+                {/* Overlay */}
+                <Overlay
+                  onClick={onOverlayClick}
+                  exit={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                />
+                {/* 영화 클릭시 뜨는 정보 팝업창 */}
+                <motion.div
+                  layoutId={bigMovieMatch.params.movieId} // 위 Box 컴포넌트 layoutId랑 같이 작성. match
+                  style={{
+                    position: "fixed",
+                    width: "850px",
+                    height: "479px",
+                    borderRadius: "10px",
+                    backgroundColor: "rgb(23, 22, 22)",
+                    top: 50,
+                    left: 0,
+                    right: 0,
+                    margin: "0 auto",
+                  }}
+                ></motion.div>
+              </>
             ) : null}
           </AnimatePresence>
         </>
