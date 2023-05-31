@@ -36,9 +36,10 @@ const Banner = styled.div<{ $bgPhoto: string }>`
 
 const Title = styled.h2`
   font-size: 68px;
-  font-family: "Carter One", cursive;
+  font-family: "Black Han Sans", sans-serif;
   width: 40%;
   color: ${(props) => props.theme.white.lighter};
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.35);
 `;
 
 // 슬라이더
@@ -245,7 +246,6 @@ function Home() {
                       transition={{ type: "tween" }}
                       $bgPhoto={makeImagePath(movie.backdrop_path, "w500")} // 영화 슬라이드 사진 w500 작성으로 크기 조절
                     >
-                      {/* <img></img> */}
                       {/* <Info /> 부모인 Box 의 whileHover도 상속됨 */}
                       <Info variants={infoVariants}>
                         <h4>{movie.title}</h4>

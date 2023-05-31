@@ -216,7 +216,7 @@ function Header() {
             ></path>
           </motion.svg>
           <Input
-            autoFocus
+            
             initial={{ scaleX: 0 }}
             animate={inputAnimation}
             transition={{ duration: 0.5 }}
