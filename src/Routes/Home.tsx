@@ -266,6 +266,7 @@ function Home() {
                       {/* <Info /> 부모인 Box 의 whileHover도 상속됨 */}
                       <Info variants={infoVariants}>
                         <h4>{movie.title}</h4>
+                        <div>{movie.release_date}</div>
                       </Info>
                     </Box>
                   ))}
@@ -286,12 +287,12 @@ function Home() {
                 <motion.div
                   layoutId={bigMovieMatch.params.movieId} // 위 Box 컴포넌트 layoutId랑 같이 작성. match
                   style={{
-                    position: "fixed",
+                    position: "absolute",
                     width: "850px",
                     height: "479px",
                     borderRadius: "10px",
                     backgroundColor: "rgb(23, 22, 22)",
-                    top: scrollY, // top을 scrollY로 줌으로 인해 스크롤을 많이 내려도 top속성이 고정
+                    top: scrollY.get() + 100, // top을 scrollY로 줌으로 인해 스크롤을 많이 내려도 top속성이 고정
                     left: 0,
                     right: 0,
                     margin: "0 auto",
