@@ -2,7 +2,7 @@ import { useQuery } from "react-query";
 import { IGetMoviesResult, getMovies } from "./api";
 import { styled } from "styled-components";
 import { makeImagePath } from "../utils";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useScroll } from "framer-motion";
 import { useState } from "react";
 import useWindowDimensions from "../Components/WindowDimensions";
 import { useMatch, PathMatch, useNavigate } from "react-router-dom";
@@ -168,7 +168,10 @@ function Home() {
   const navigate = useNavigate();
   // match
   const bigMovieMatch: PathMatch<string> | null = useMatch("/movies/:id");
-  console.log(bigMovieMatch);
+  // useScroll - 영화 클릭시 팝업창 스크롤
+  const {scrollY} = useScroll();
+  
+
   // useQuery
   // 기본적으로 key를 제공해주어야 한다. (문자열 or 배열)
   // getMovies 로 api를 가져옴.
@@ -276,8 +279,8 @@ function Home() {
                 {/* Overlay */}
                 <Overlay
                   onClick={onOverlayClick}
-                  exit={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
                 />
                 {/* 영화 클릭시 뜨는 정보 팝업창 */}
                 <motion.div
@@ -288,7 +291,7 @@ function Home() {
                     height: "479px",
                     borderRadius: "10px",
                     backgroundColor: "rgb(23, 22, 22)",
-                    top: 50,
+                    top: scrollY, // top을 scrollY로 줌으로 인해 스크롤을 많이 내려도 top속성이 고정
                     left: 0,
                     right: 0,
                     margin: "0 auto",
