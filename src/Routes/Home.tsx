@@ -178,7 +178,7 @@ function Home() {
   // useNavigate 훅을 사용하면 URL을 왔다갔다 할 수 있음.(여러 route 사이를 움직일 수 있음)
   const navigate = useNavigate();
   // match
-  const bigMovieMatch: PathMatch<string> | null = useMatch("/movies/:id");
+  const bigMovieMatch: PathMatch<string> | null = useMatch("/movies/:movieId");
   // useScroll - 영화 클릭시 팝업창 스크롤
   const { scrollY } = useScroll();
 
