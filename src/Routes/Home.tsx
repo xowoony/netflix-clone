@@ -113,6 +113,17 @@ const Overlay = styled(motion.div)`
   opacity: 0;
 `;
 
+const BigMovie = styled(motion.div)`
+  position: absolute;
+  width: 850px;
+  height: 479px;
+  border-radius: 10px;
+  background-color: rgb(23, 22, 22);
+
+  right: 0;
+  margin: 0 auto;
+`;
+
 // 슬라이더 - variants
 // const rowVariants = {
 //   // 안보일 때 x: 사용자의 화면 크기를 받아와야 함.
@@ -169,8 +180,7 @@ function Home() {
   // match
   const bigMovieMatch: PathMatch<string> | null = useMatch("/movies/:id");
   // useScroll - 영화 클릭시 팝업창 스크롤
-  const {scrollY} = useScroll();
-  
+  const { scrollY } = useScroll();
 
   // useQuery
   // 기본적으로 key를 제공해주어야 한다. (문자열 or 배열)
@@ -284,20 +294,10 @@ function Home() {
                   exit={{ opacity: 0 }}
                 />
                 {/* 영화 클릭시 뜨는 정보 팝업창 */}
-                <motion.div
+                <BigMovie
+                  style={{ top: scrollY.get() + 100 }}
                   layoutId={bigMovieMatch.params.movieId} // 위 Box 컴포넌트 layoutId랑 같이 작성. match
-                  style={{
-                    position: "absolute",
-                    width: "850px",
-                    height: "479px",
-                    borderRadius: "10px",
-                    backgroundColor: "rgb(23, 22, 22)",
-                    top: scrollY.get() + 100, // top을 scrollY로 줌으로 인해 스크롤을 많이 내려도 top속성이 고정
-                    left: 0,
-                    right: 0,
-                    margin: "0 auto",
-                  }}
-                ></motion.div>
+                ></BigMovie>
               </>
             ) : null}
           </AnimatePresence>
