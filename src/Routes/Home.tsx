@@ -57,7 +57,7 @@ const Row = styled(motion.div)`
   width: 100%;
 `;
 
-const Overview = styled.p`
+const Overview = styled(motion.p)`
   color: #fff;
   font-size: 1.2vw;
   font-weight: 400;
@@ -120,7 +120,7 @@ const BigMovie = styled(motion.div)`
   border-radius: 10px;
   background-color: rgb(23, 22, 22);
 
-  right: 0;
+  right: 350px;
   margin: 0 auto;
 `;
 
@@ -191,6 +191,9 @@ function Home() {
     getMovies
   ); // movies, nowPlaying => 식별자
 
+  // 더보기
+  const [readMore, setReadMore] = useState(false);
+
   // index 시스템 : 작성해주고 밑에서 이 index를 Row의 key로 넘겨줌
   const [index, setIndex] = useState(0);
 
@@ -239,7 +242,18 @@ function Home() {
             $bgPhoto={makeImagePath(data?.results[0].backdrop_path || "")}
           >
             <Title>{data?.results[0].title}</Title>
-            <Overview>{data?.results[0].overview}</Overview>
+            {/* 시놉시스 */}
+            <Overview>
+              {readMore
+                ? data?.results[0].overview
+                : `${data?.results[0].overview.substring(0, 100)}...`}
+              <span
+                style={{ color: "gray", cursor: "pointer" }}
+                onClick={() => setReadMore(!readMore)}
+              >
+                {readMore ? "[닫기]" : "[더보기]"}
+              </span>
+            </Overview>
           </Banner>
           <Slider>
             {/* 슬라이더. variants 적용 */}
@@ -276,7 +290,6 @@ function Home() {
                       {/* <Info /> 부모인 Box 의 whileHover도 상속됨 */}
                       <Info variants={infoVariants}>
                         <h4>{movie.title}</h4>
-                        <div>{movie.release_date}</div>
                       </Info>
                     </Box>
                   ))}
