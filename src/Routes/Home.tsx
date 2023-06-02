@@ -237,7 +237,7 @@ function Home() {
     data?.results.find(
       (movie) => movie.id + "" === bigMovieMatch.params.movieId
     );
-    console.log(clickedMovie);
+  console.log(clickedMovie);
   // <></> 공통된 부모 없이 연이어 리턴하기
   return (
     <Wrapper>
@@ -318,7 +318,17 @@ function Home() {
                 <BigMovie
                   style={{ top: scrollY.get() + 100 }}
                   layoutId={bigMovieMatch.params.movieId} // 위 Box 컴포넌트 layoutId랑 같이 작성. match
-                >여기에는 영화정보와 포스터가 올 것임.</BigMovie>
+                >
+                  {clickedMovie && (
+                    <>
+                      <img
+                        src={makeImagePath(clickedMovie.backdrop_path, "w500")}
+                        alt=""
+                      />
+                      <h2>{clickedMovie.title}</h2>
+                    </>
+                  )}
+                </BigMovie>
               </>
             ) : null}
           </AnimatePresence>
