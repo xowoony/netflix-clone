@@ -177,10 +177,9 @@ const Overlay = styled(motion.div)`
 const BigMovie = styled(motion.div)`
   position: absolute;
   width: 850px;
-  height: 479px;
+  height: 600px;
   border-radius: 10px;
   background-color: rgb(23, 22, 22);
-
   right: 350px;
   margin: 0 auto;
 `;
