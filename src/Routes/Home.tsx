@@ -318,7 +318,7 @@ function Home() {
                 <BigMovie
                   style={{ top: scrollY.get() + 100 }}
                   layoutId={bigMovieMatch.params.movieId} // 위 Box 컴포넌트 layoutId랑 같이 작성. match
-                ></BigMovie>
+                >여기에는 영화정보와 포스터가 올 것임.</BigMovie>
               </>
             ) : null}
           </AnimatePresence>
