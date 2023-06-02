@@ -230,6 +230,14 @@ function Home() {
   // 영화정보 팝업창 뜬 다음 바깥쪽 (overlay) 클릭시 팝업창 사라지게
   const onOverlayClick = () => navigate(-1);
 
+  // 영화 클릭시
+
+  const clickedMovie =
+    bigMovieMatch?.params.movieId &&
+    data?.results.find(
+      (movie) => movie.id + "" === bigMovieMatch.params.movieId
+    );
+    console.log(clickedMovie);
   // <></> 공통된 부모 없이 연이어 리턴하기
   return (
     <Wrapper>
