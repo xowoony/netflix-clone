@@ -185,7 +185,9 @@ const BigMovie = styled(motion.div)`
 `;
 
 // 영화 클릭시 팝업창에 들어갈 이미지
-const BigCover = styled.img`
+const BigCover = styled.div`
+  background-size: cover;
+  background-position: center center;
   width: 100%;
   height: 400px;
   border-radius: 10px;
@@ -434,8 +436,12 @@ function Home() {
                   {clickedMovie && (
                     <>
                       <BigCover
-                        src={makeImagePath(clickedMovie.backdrop_path, "w500")}
-                        alt=""
+                        style={{
+                          backgroundImage: `url(${makeImagePath(
+                            clickedMovie.backdrop_path,
+                            "w500"
+                          )})`,
+                        }}
                       />
                       <BigTitle>{clickedMovie.title}</BigTitle>
                     </>
