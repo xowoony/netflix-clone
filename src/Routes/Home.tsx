@@ -84,7 +84,7 @@ const PlayButton = styled.button`
   justify-content: center;
   border-radius: 5px;
   padding: 0.7rem 2rem;
-  margin-right: 1rem;
+  margin-right: 0.5rem;
   border: none;
   &:hover {
     background-color: rgba(255, 255, 255, 0.75);
@@ -102,6 +102,28 @@ const PlayButton = styled.button`
 const PlayIcon = styled.div`
   margin-right: 0.5rem;
 `;
+
+const PlusButton = styled.button`
+  background-color: #2a2a2a;
+  border-color: #fff;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  color: white;
+  border-radius: 2rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  cursor: pointer;
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-right: 0.5rem;
+  &:hover {
+    background-color: #1a1a1a;
+    border: 2px solid white;
+  }
+`;
+
+const GoodButton = styled(PlusButton)``;
 
 const InfoIcon = styled.div`
   margin-right: 0.5rem;
@@ -153,6 +175,21 @@ const Box = styled(motion.div)<{ $bgPhoto: string }>`
   }
 `;
 
+const BoxInfoTitle = styled.div`
+  width: 11rem;
+  font-size: 17px;
+  font-weight: 100;
+  font-family: "Black Han Sans", sans-serif;
+  color: ${(props) => props.theme.white.lighter};
+  height: 100%;
+  align-items: flex-end;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  padding: 1rem;
+  text-shadow: 1px 1.5px 1px rgba(0, 0, 0, 0.75);
+`;
+
 // box hover시 나타나는 info
 const Info = styled(motion.div)`
   padding: 10px;
@@ -164,6 +201,9 @@ const Info = styled(motion.div)`
   h4 {
     text-align: center;
     font-size: 18px;
+    font-weight: 100;
+    font-family: "Black Han Sans", sans-serif;
+    color: ${(props) => props.theme.white.lighter};
   }
 `;
 
@@ -181,10 +221,10 @@ const BigMovie = styled(motion.div)`
   position: absolute;
   width: 850px;
   height: 600px;
-  border-radius: 10px;
+  border-radius: 5px;
   overflow: hidden;
   background-color: ${(props) => props.theme.black.lighter};
-  right: 350px;
+  right: 330px;
   margin: 0 auto;
 `;
 
@@ -193,23 +233,58 @@ const BigCover = styled.div`
   background-size: cover;
   background-position: center center;
   width: 100%;
-  height: 400px;
-  border-radius: 10px;
+  height: 479px;
+  border-radius: 5px;
   align-items: flex-start;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
 `;
 
+const BigButtonContainer = styled.div`
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+`;
+
+const BigCloseContainer = styled.div`
+  align-items: flex-end;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  width: 100%;
+  margin-bottom: 7.7rem;
+  padding-right: 0.5rem;
+`;
+const BigCloseButton = styled(PlusButton)`
+  width: 2.2rem;
+  height: 2.2rem;
+  border: none;
+  &:hover {
+    border: none;
+  }
+  &:active {
+    border: 2px solid white;
+    color: white;
+  }
+  svg {
+    width: 15px;
+  }
+`;
+
 const BigTitleBox = styled.div`
   padding: 3rem;
+  width: 35rem;
 `;
 
 // 영화 클릭시 팝업창에 들어갈 영화제목
 const BigTitle = styled.h3`
   color: ${(props) => props.theme.white.lighter};
-  font-size: 2rem;
-  font-weight: 600;
+  font-size: 3.25rem;
+  font-weight: 100;
+  font-family: "Black Han Sans", sans-serif;
+  margin-bottom: 32px;
 `;
 
 // 슬라이더 - variants
@@ -325,7 +400,7 @@ function Home() {
     data?.results.find(
       (movie) => movie.id + "" === bigMovieMatch.params.movieId
     );
-  console.log(clickedMovie);
+  // console.log(clickedMovie);
   // <></> 공통된 부모 없이 연이어 리턴하기
   return (
     <Wrapper>
@@ -431,6 +506,9 @@ function Home() {
                       transition={{ type: "tween" }}
                       $bgPhoto={makeImagePath(movie.backdrop_path, "w500")} // 영화 슬라이드 사진 w500 작성으로 크기 조절
                     >
+                      <BoxInfoTitle>
+                        <h4>{movie.title}</h4>
+                      </BoxInfoTitle>
                       {/* <Info /> 부모인 Box 의 whileHover도 상속됨 */}
                       <Info variants={infoVariants}>
                         <h4>{movie.title}</h4>
@@ -452,7 +530,7 @@ function Home() {
                 />
                 {/* 영화 클릭시 뜨는 정보 팝업창 */}
                 <BigMovie
-                  style={{ top: scrollY.get() + 100 }}
+                  style={{ top: scrollY.get() + 33 }}
                   layoutId={bigMovieMatch.params.movieId} // 위 Box 컴포넌트 layoutId랑 같이 작성. match
                 >
                   {clickedMovie && (
@@ -465,11 +543,79 @@ function Home() {
                           )})`,
                         }}
                       >
+                        <BigCloseContainer>
+                          <BigCloseButton>
+                            <svg
+                              width="24"
+                              height="24"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
+                              data-name="Close"
+                              data-uia="previewModal-closebtn"
+                              role="button"
+                              aria-label="close"
+                            >
+                              <path
+                                d="M2.29297 3.70706L10.5859 12L2.29297 20.2928L3.70718 21.7071L12.0001 13.4142L20.293 21.7071L21.7072 20.2928L13.4143 12L21.7072 3.70706L20.293 2.29285L12.0001 10.5857L3.70718 2.29285L2.29297 3.70706Z"
+                                fill="currentColor"
+                              ></path>
+                            </svg>
+                          </BigCloseButton>
+                        </BigCloseContainer>
+
                         <BigTitleBox>
                           <BigTitle>{clickedMovie.title}</BigTitle>
-                          <button>재생</button>
-                          <button>+</button>
-                          <button>굿</button>
+                          <BigButtonContainer>
+                            <PlayButton>
+                              <PlayIcon>
+                                <svg
+                                  width="24"
+                                  height="24"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  data-name="Play"
+                                >
+                                  <path
+                                    d="M4 2.69127C4 1.93067 4.81547 1.44851 5.48192 1.81506L22.4069 11.1238C23.0977 11.5037 23.0977 12.4963 22.4069 12.8762L5.48192 22.1849C4.81546 22.5515 4 22.0693 4 21.3087V2.69127Z"
+                                    fill="currentColor"
+                                  ></path>
+                                </svg>
+                              </PlayIcon>
+                              <div>재생</div>
+                            </PlayButton>
+                            <PlusButton>
+                              <svg
+                                width="24"
+                                height="24"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                                data-name="Add"
+                              >
+                                <path
+                                  d="M11 2V11H2V13H11V22H13V13H22V11H13V2H11Z"
+                                  fill="currentColor"
+                                ></path>
+                              </svg>
+                            </PlusButton>
+                            <GoodButton>
+                              <svg
+                                width="24"
+                                height="24"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                                data-name="RateUp"
+                              >
+                                <path
+                                  d="M10.696 8.7732C10.8947 8.45534 11 8.08804 11 7.7132V4H11.8377C12.7152 4 13.4285 4.55292 13.6073 5.31126C13.8233 6.22758 14 7.22716 14 8C14 8.58478 13.8976 9.1919 13.7536 9.75039L13.4315 11H14.7219H17.5C18.3284 11 19 11.6716 19 12.5C19 12.5929 18.9917 12.6831 18.976 12.7699L18.8955 13.2149L19.1764 13.5692C19.3794 13.8252 19.5 14.1471 19.5 14.5C19.5 14.8529 19.3794 15.1748 19.1764 15.4308L18.8955 15.7851L18.976 16.2301C18.9917 16.317 19 16.4071 19 16.5C19 16.9901 18.766 17.4253 18.3994 17.7006L18 18.0006L18 18.5001C17.9999 19.3285 17.3284 20 16.5 20H14H13H12.6228C11.6554 20 10.6944 19.844 9.77673 19.5382L8.28366 19.0405C7.22457 18.6874 6.11617 18.5051 5 18.5001V13.7543L7.03558 13.1727C7.74927 12.9688 8.36203 12.5076 8.75542 11.8781L10.696 8.7732ZM10.5 2C9.67157 2 9 2.67157 9 3.5V7.7132L7.05942 10.8181C6.92829 11.0279 6.72404 11.1817 6.48614 11.2497L4.45056 11.8313C3.59195 12.0766 3 12.8613 3 13.7543V18.5468C3 19.6255 3.87447 20.5 4.95319 20.5C5.87021 20.5 6.78124 20.6478 7.65121 20.9378L9.14427 21.4355C10.2659 21.8094 11.4405 22 12.6228 22H13H14H16.5C18.2692 22 19.7319 20.6873 19.967 18.9827C20.6039 18.3496 21 17.4709 21 16.5C21 16.4369 20.9983 16.3742 20.995 16.3118C21.3153 15.783 21.5 15.1622 21.5 14.5C21.5 13.8378 21.3153 13.217 20.995 12.6883C20.9983 12.6258 21 12.5631 21 12.5C21 10.567 19.433 9 17.5 9H15.9338C15.9752 8.6755 16 8.33974 16 8C16 6.98865 15.7788 5.80611 15.5539 4.85235C15.1401 3.09702 13.5428 2 11.8377 2H10.5Z"
+                                  fill="currentColor"
+                                ></path>
+                              </svg>
+                            </GoodButton>
+                          </BigButtonContainer>
                         </BigTitleBox>
                       </BigCover>
 
