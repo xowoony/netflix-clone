@@ -1,5 +1,5 @@
 import { useQuery } from "react-query";
-import { IGetMoviesResult, getMovies } from "./api";
+import { IGetMoviesNowPlayingResult, getMovieNowPlaying } from "./api";
 import { styled } from "styled-components";
 import { makeImagePath } from "../utils";
 import { motion, AnimatePresence, useScroll } from "framer-motion";
@@ -186,7 +186,7 @@ const BoxInfoTitle = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
-  padding: 1rem;
+  padding: 0.6rem;
   text-shadow: 1px 1.5px 1px rgba(0, 0, 0, 0.75);
 `;
 
@@ -249,15 +249,16 @@ const BigButtonContainer = styled.div`
 `;
 
 const BigCloseContainer = styled.div`
-  align-items: flex-end;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
+  height: 100%;
   width: 100%;
-  margin-bottom: 7.7rem;
-  padding-right: 0.5rem;
+  align-items: flex-start;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  margin-top: 1rem;
 `;
 const BigCloseButton = styled(PlusButton)`
+  margin-right: 1rem;
   width: 2.2rem;
   height: 2.2rem;
   border: none;
@@ -349,9 +350,9 @@ function Home() {
   // 기본적으로 key를 제공해주어야 한다. (문자열 or 배열)
   // getMovies 로 api를 가져옴.
   // 타입스크립트에게 useQuery의 결과가 IGetMoviesResult 타입이라고 알려주기
-  const { data, isLoading } = useQuery<IGetMoviesResult>(
+  const { data, isLoading } = useQuery<IGetMoviesNowPlayingResult>(
     ["movies", "nowPlaying"],
-    getMovies
+    getMovieNowPlaying
   ); // movies, nowPlaying => 식별자
 
   // 더보기
@@ -394,7 +395,6 @@ function Home() {
   const onOverlayClick = () => navigate(-1);
 
   // 영화 클릭시
-
   const clickedMovie =
     bigMovieMatch?.params.movieId &&
     data?.results.find(
@@ -537,14 +537,14 @@ function Home() {
                     <>
                       <BigCover
                         style={{
-                          backgroundImage: `url(${makeImagePath(
+                          backgroundImage: `linear-gradient(to top, black, transparent),url(${makeImagePath(
                             clickedMovie.backdrop_path,
                             "w500"
                           )})`,
                         }}
                       >
                         <BigCloseContainer>
-                          <BigCloseButton>
+                          <BigCloseButton onClick={onOverlayClick}>
                             <svg
                               width="24"
                               height="24"
