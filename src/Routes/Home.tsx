@@ -45,7 +45,9 @@ const Title = styled.h2`
 // 슬라이더
 const Slider = styled.div`
   position: relative;
-  top: -65px;
+  top: -90px;
+  margin-left: 60px;
+  margin-right: 60px;
 `;
 
 // 슬라이더 row
@@ -137,6 +139,7 @@ const Box = styled(motion.div)<{ $bgPhoto: string }>`
   background-position: center center;
   height: 150px;
   color: black;
+  height: 8rem;
   font-size: 30px;
   cursor: pointer;
   /* position: relative; // 요소 자기 자신을 기준으로 배치 */
@@ -179,7 +182,8 @@ const BigMovie = styled(motion.div)`
   width: 850px;
   height: 600px;
   border-radius: 10px;
-  background-color: rgb(23, 22, 22);
+  overflow: hidden;
+  background-color: ${(props) => props.theme.black.lighter};
   right: 350px;
   margin: 0 auto;
 `;
@@ -191,11 +195,21 @@ const BigCover = styled.div`
   width: 100%;
   height: 400px;
   border-radius: 10px;
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+`;
+
+const BigTitleBox = styled.div`
+  padding: 3rem;
 `;
 
 // 영화 클릭시 팝업창에 들어갈 영화제목
 const BigTitle = styled.h3`
   color: ${(props) => props.theme.white.lighter};
+  font-size: 2rem;
+  font-weight: 600;
 `;
 
 // 슬라이더 - variants
@@ -366,8 +380,6 @@ function Home() {
                     data-name="Info"
                   >
                     <path
-                      fill-rule="evenodd"
-                      clip-rule="evenodd"
                       d="M12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3ZM1 12C1 5.92487 5.92487 1 12 1C18.0751 1 23 5.92487 23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12ZM13 10V18H11V10H13ZM12 8.5C12.8284 8.5 13.5 7.82843 13.5 7C13.5 6.17157 12.8284 5.5 12 5.5C11.1716 5.5 10.5 6.17157 10.5 7C10.5 7.82843 11.1716 8.5 12 8.5Z"
                       fill="currentColor"
                     ></path>
@@ -378,6 +390,16 @@ function Home() {
             </ButtonContainer>
           </Banner>
           <Slider>
+            <div
+              style={{
+                fontSize: "1.4vw",
+                fontWeight: 400,
+                marginBottom: "1rem",
+                color: "#E5E5E5",
+              }}
+            >
+              지금 뜨는 콘텐츠
+            </div>
             {/* 슬라이더. variants 적용 */}
             {/* Row를 AnimatePresence로 감싸서 key를 넘겨주어 render해줌. */}
             {/* onExitComplete에 함수를 넣으면 exit이 끝났을 때 실행됨 */}
@@ -442,8 +464,17 @@ function Home() {
                             "w500"
                           )})`,
                         }}
-                      />
-                      <BigTitle>{clickedMovie.title}</BigTitle>
+                      >
+                        <BigTitleBox>
+                          <BigTitle>{clickedMovie.title}</BigTitle>
+                          <button>재생</button>
+                          <button>+</button>
+                          <button>굿</button>
+                        </BigTitleBox>
+                      </BigCover>
+
+                      <div>개봉일 : {clickedMovie.release_date}</div>
+                      <div>평점 : {clickedMovie.popularity}</div>
                     </>
                   )}
                 </BigMovie>
