@@ -8,7 +8,7 @@ import useWindowDimensions from "../Components/WindowDimensions";
 import { useMatch, PathMatch, useNavigate } from "react-router-dom";
 
 const Wrapper = styled.div`
-  background-color: black;
+  background-color: ${(props) => props.theme.black.veryDark};
   padding-bottom: 200px;
 `;
 
@@ -28,7 +28,7 @@ const Banner = styled.div<{ $bgPhoto: string }>`
   background-image: linear-gradient(
       rgba(0, 0, 0, 0.1),
       rgba(0, 0, 0, 0.1),
-      rgba(0, 0, 0, 1)
+      ${(props) => props.theme.black.veryDark}
     ),
     url(${(props) => props.$bgPhoto}); // 배경 어두워지게 (cover)
   background-size: cover;
@@ -164,7 +164,7 @@ const Box = styled(motion.div)<{ $bgPhoto: string }>`
   height: 8rem;
   font-size: 30px;
   cursor: pointer;
-  &:hover{
+  &:hover {
     border-radius: 3px 3px 0 0;
   }
   /* position: relative; // 요소 자기 자신을 기준으로 배치 */
