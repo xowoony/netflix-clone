@@ -44,7 +44,7 @@ html {
 
 body {
   line-height: 1;
-  background-color: #c5c5c5;
+  background-color: ${(props) => props.theme.black.darker};
   overflow-x: hidden;
 }
 menu, ol, ul {
@@ -70,7 +70,7 @@ body {
   font-family: 'Source Sans Pro', sans-serif;
   color: ${(props) => props.theme.white.darker};
   line-height: 1.2;
-  background-color: black;
+ 
 }
 a {
   text-decoration:none;

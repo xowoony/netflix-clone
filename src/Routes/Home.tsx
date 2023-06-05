@@ -8,7 +8,7 @@ import useWindowDimensions from "../Components/WindowDimensions";
 import { useMatch, PathMatch, useNavigate } from "react-router-dom";
 
 const Wrapper = styled.div`
-  background-color: ${(props) => props.theme.black.veryDark};
+  /* background-color: ${(props) => props.theme.black.veryDark}; */
   padding-bottom: 200px;
   height: 100vh;
 `;
@@ -58,6 +58,7 @@ const Row = styled(motion.div)`
   gap: 5px;
   position: absolute;
   width: 100%;
+
 `;
 
 const Overview = styled(motion.p)`
