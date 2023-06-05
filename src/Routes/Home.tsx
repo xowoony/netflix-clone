@@ -164,6 +164,9 @@ const Box = styled(motion.div)<{ $bgPhoto: string }>`
   height: 8rem;
   font-size: 30px;
   cursor: pointer;
+  &:hover{
+    border-radius: 3px 3px 0 0;
+  }
   /* position: relative; // 요소 자기 자신을 기준으로 배치 */
   // 첫번째 박스 hover시 확대 될 때 왼쪽이 잘리지 않게 하기 위해
   &:first-child {
@@ -195,12 +198,13 @@ const Info = styled(motion.div)`
   padding: 10px;
   background-color: ${(props) => props.theme.black.lighter};
   opacity: 0;
-  position: absolute; // 부모(조상) 요소를 기준으로 배치
+  position: relative; // 부모(조상) 요소를 기준으로 배치
   width: 100%;
   bottom: 0;
+  border-radius: 0 0 3px 3px;
   h4 {
     text-align: center;
-    font-size: 18px;
+    font-size: 10px;
     font-weight: 100;
     font-family: "Black Han Sans", sans-serif;
     color: ${(props) => props.theme.white.lighter};
@@ -220,10 +224,10 @@ const Overlay = styled(motion.div)`
 const BigMovie = styled(motion.div)`
   position: absolute;
   width: 850px;
-  height: 600px;
+  height: 700px;
   border-radius: 5px;
   overflow: hidden;
-  background-color: ${(props) => props.theme.black.lighter};
+  background-color: ${(props) => props.theme.black.veryDark};
   right: 330px;
   margin: 0 auto;
 `;
@@ -239,6 +243,10 @@ const BigCover = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
+`;
+
+const BigInfoContainer = styled.div`
+  margin: 0 3rem 0 3rem;
 `;
 
 const BigButtonContainer = styled.div`
@@ -618,9 +626,11 @@ function Home() {
                           </BigButtonContainer>
                         </BigTitleBox>
                       </BigCover>
-
-                      <div>개봉일 : {clickedMovie.release_date}</div>
-                      <div>평점 : {clickedMovie.popularity}</div>
+                      <BigInfoContainer>
+                        <div>개봉일 : {clickedMovie.release_date}</div>
+                        <div>평점 : {clickedMovie.popularity}</div>
+                        <div>{clickedMovie.overview}</div>
+                      </BigInfoContainer>
                     </>
                   )}
                 </BigMovie>
