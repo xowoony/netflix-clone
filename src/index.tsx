@@ -39,7 +39,7 @@ footer, header, hgroup, main, menu, nav, section {
 }
 
 html {
-  overflow-x: hidden;
+  /* overflow-x: hidden; */
 }
 
 body {

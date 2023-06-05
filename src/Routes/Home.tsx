@@ -200,7 +200,7 @@ const Info = styled(motion.div)`
   opacity: 0;
   position: relative; // 부모(조상) 요소를 기준으로 배치
   width: 100%;
-  bottom: 0;
+  bottom: 1px;
   border-radius: 0 0 3px 3px;
   h4 {
     text-align: center;
