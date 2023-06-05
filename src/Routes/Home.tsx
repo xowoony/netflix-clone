@@ -10,6 +10,7 @@ import { useMatch, PathMatch, useNavigate } from "react-router-dom";
 const Wrapper = styled.div`
   background-color: ${(props) => props.theme.black.veryDark};
   padding-bottom: 200px;
+  height: 100vh;
 `;
 
 const Loader = styled.div`
@@ -166,6 +167,7 @@ const Box = styled(motion.div)<{ $bgPhoto: string }>`
   cursor: pointer;
   &:hover {
     border-radius: 3px 3px 0 0;
+    box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
   }
   /* position: relative; // 요소 자기 자신을 기준으로 배치 */
   // 첫번째 박스 hover시 확대 될 때 왼쪽이 잘리지 않게 하기 위해
@@ -195,8 +197,9 @@ const BoxInfoTitle = styled.div`
 
 // box hover시 나타나는 info
 const Info = styled(motion.div)`
-  padding: 10px;
-  background-color: ${(props) => props.theme.black.lighter};
+  padding: 45px;
+  background-color: ${(props) => props.theme.black.darker};
+  box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
   opacity: 0;
   position: relative; // 부모(조상) 요소를 기준으로 배치
   width: 100%;
@@ -321,8 +324,8 @@ const boxVariants = {
     scale: 1,
   },
   hover: {
-    scale: 1.3,
-    y: -50,
+    scale: 1.5,
+    y: -100,
     transition: {
       delay: 0.4, // hover 상태에서만 따로 딜레이 주기
       duration: 0.3,

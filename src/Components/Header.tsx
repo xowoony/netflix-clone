@@ -26,6 +26,7 @@ const Nav = styled(motion.nav)`
 const Col = styled.div`
   display: flex;
   align-items: center;
+  z-index: 10;
 `;
 
 // 넷플릭스 로고
@@ -113,7 +114,6 @@ const logoVariants = {
     },
   },
 };
-
 
 function Header() {
   const [searchOpen, setSearchOpen] = useState(false);
@@ -216,7 +216,6 @@ function Header() {
             ></path>
           </motion.svg>
           <Input
-            
             initial={{ scaleX: 0 }}
             animate={inputAnimation}
             transition={{ duration: 0.5 }}
