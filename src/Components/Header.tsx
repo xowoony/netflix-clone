@@ -1,4 +1,4 @@
-import { Link, useMatch } from "react-router-dom";
+import { Link, useMatch, useForm } from "react-router-dom";
 import styled from "styled-components";
 import { motion, useAnimation, useScroll, useTransform } from "framer-motion";
 // useScroll : motion value를 준다. 맨 밑에서부터 얼마나 멀리 있는지를 알려줌
@@ -63,7 +63,7 @@ const Item = styled.li`
   }
 `;
 
-const Search = styled.span`
+const Search = styled.form`
   color: white;
   display: flex;
   align-items: center;
@@ -115,6 +115,11 @@ const logoVariants = {
   },
 };
 
+// search bar Interface
+interface IForm {
+  keyword: string;
+}
+
 function Header() {
   const [searchOpen, setSearchOpen] = useState(false);
   const homeMatch = useMatch("/");
@@ -147,6 +152,11 @@ function Header() {
     [0, 100],
     ["rgba(0,0,0,0)", "rgba(0,0,0,0.7)"]
   );
+
+  const { register, handleSubmit } = useForm<IForm>();
+  const onValid = (data: IForm) => {
+    console.log(data);
+  };
 
   return (
     // 헤더 전체
@@ -200,7 +210,8 @@ function Header() {
         </Items>
       </Col>
       <Col>
-        <Search>
+        {/* 기존의 span 에서 form으로 바꿔줌 */}
+        <Search onSubmit={handleSubmit(onValid)}>
           <motion.svg
             onClick={toggleSearch}
             animate={{ x: searchOpen ? -210 : 0 }}
@@ -216,6 +227,9 @@ function Header() {
             ></path>
           </motion.svg>
           <Input
+            // 위에서 선언해준 register를 집어넣음. name은 keyword, 필수, 최소글자 1
+            // 그리고 그냥 <Input /> 을 <Form />으로 감싸도록 한다.
+            {...register("keyword", { required: true, minLength: 1 })}
             initial={{ scaleX: 0 }}
             animate={inputAnimation}
             transition={{ duration: 0.5 }}
