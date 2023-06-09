@@ -1,4 +1,4 @@
-import { Link, useMatch} from "react-router-dom";
+import { Link, NavigateFunction, useMatch, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { motion, useAnimation, useScroll, useTransform } from "framer-motion";
 // useScroll : motion value를 준다. 맨 밑에서부터 얼마나 멀리 있는지를 알려줌
@@ -154,9 +154,13 @@ function Header() {
     ["rgba(0,0,0,0)", "rgba(0,0,0,0.7)"]
   );
 
+  // 검색할 경우 redirect를 위해 useNavigate 사용
+  const navigate:NavigateFunction = useNavigate();
+
   const { register, handleSubmit } = useForm<IForm>();
   const onValid = (data: IForm) => {
     console.log(data);
+    navigate(`/search?keyword=${data.keyword}`);
   };
 
   return (
