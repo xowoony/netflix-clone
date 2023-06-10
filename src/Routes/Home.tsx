@@ -58,7 +58,6 @@ const Row = styled(motion.div)`
   gap: 5px;
   position: absolute;
   width: 100%;
-
 `;
 
 const Overview = styled(motion.p)`

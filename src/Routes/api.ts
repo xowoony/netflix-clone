@@ -1,6 +1,6 @@
 const API_KEY = "e03a93d879218d0e8080eba916c8afdf";
 const BASE_PATH = "https://api.themoviedb.org/3/";
-//
+// 
 const LANGUAGE = "ko-KO";
 const REGION = "KR";
 const TAIL_PATH = `api_key=${API_KEY}&language=${LANGUAGE}&region=${REGION}`;
