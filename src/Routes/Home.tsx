@@ -59,30 +59,50 @@ const SliderTitle = styled.div`
 `;
 
 // 슬라이더
-const Slider = styled.div`
+const Slider = styled.span`
   position: relative;
   top: -157px;
-  width: 88rem;
+  width: 89rem;
 `;
 
 // 슬라이더 row
-const Row = styled(motion.div)`
+const Row = styled(motion.span)`
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   margin-left: 3rem;
   gap: 5px;
   position: absolute;
-  width: 100%;
+  width: 89rem;
 `;
 
-const LeftButton = styled.div``;
-const RightButton = styled.div`
-  margin-right: 3rem;
-  align-items: center;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  width: 100%;
+const LeftButton = styled.span`
+  width: 3rem;
+  height: 8rem;
+  background-color: #3e3e3ea3;
+  color: white;
+  button {
+    width: 100%;
+    height: 100%;
+    background-color: inherit;
+    color: white;
+    border-style: none;
+    cursor: pointer;
+  }
+`;
+const RightButton = styled.span`
+  margin-left: auto;
+  width: 3rem;
+  height: 8rem;
+  background-color: #3e3e3ea3;
+  color: white;
+  button {
+    width: 100%;
+    height: 100%;
+    background-color: inherit;
+    color: white;
+    border-style: none;
+    cursor: pointer;
+  }
 `;
 
 const SliderContainer = styled.div`
@@ -457,7 +477,7 @@ function Home() {
       ) : (
         <>
           <Banner
-            onClick={increaseIndex}
+            
             $bgPhoto={makeImagePath(data?.results[0].backdrop_path || "")}
           >
             <Title>{data?.results[0].title}</Title>
@@ -524,10 +544,10 @@ function Home() {
           </SliderTitle>
           <Slider>
             <SliderContainer>
-              <LeftButton>
-                <button>왼</button>
-              </LeftButton>
               <AnimatePresence initial={false} onExitComplete={toggleLeaving}>
+                <LeftButton>
+                  <button>좌</button>
+                </LeftButton>
                 <Row
                   initial={{ x: width + 10 }} // variants를 없애고 컴포넌트에 직접 initial, animate, exit prop을 전달하여 슬라이드 겹침 현상을 해결
                   animate={{ x: 0 }}
@@ -564,10 +584,10 @@ function Home() {
                       </Box>
                     ))}
                 </Row>
+                <RightButton>
+                  <button onClick={increaseIndex}>우</button>
+                </RightButton>
               </AnimatePresence>
-              <RightButton>
-                <button>우</button>
-              </RightButton>
             </SliderContainer>
             {/* 슬라이더. variants 적용 */}
             {/* Row를 AnimatePresence로 감싸서 key를 넘겨주어 render해줌. */}
