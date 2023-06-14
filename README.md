@@ -1,6 +1,8 @@
 # NETFLIX-CLONE
 💜 a project under development.. 💜
-
+<br>
+https://netflix-clone-xowoony.vercel.app/
+<br>
 <br>
 <h2>Technologies Used</h2>
 <img src="https://img.shields.io/badge/React-61DAFB?style=flat&logo=React&logoColor=white"/>
@@ -48,3 +50,5 @@ Framer Motion
 
 <h2>Distribution</h2>
 💜 a project under development.. 💜
+<br>
+https://netflix-clone-xowoony.vercel.app/
