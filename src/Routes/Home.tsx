@@ -1,10 +1,5 @@
 import { useQuery } from "react-query";
-import {
-  IGetMoviesNowPlayingResult,
-  IGetTvTopRatedResult,
-  getMovieNowPlaying,
-  getTvTopRated,
-} from "./api";
+import { IGetMoviesNowPlayingResult, getMovieNowPlaying } from "./api";
 import { styled } from "styled-components";
 import { makeImagePath } from "../utils";
 import { motion, AnimatePresence, useScroll } from "framer-motion";
@@ -13,7 +8,6 @@ import useWindowDimensions from "../Components/WindowDimensions";
 import { useMatch, PathMatch, useNavigate } from "react-router-dom";
 
 const Wrapper = styled.div`
-  /* background-color: ${(props) => props.theme.black.veryDark}; */
   padding-bottom: 200px;
   height: 100vh;
 `;
@@ -77,8 +71,8 @@ const Row = styled(motion.span)`
 const LeftButton = styled.span`
   width: 5%;
   height: 8rem;
-  background-color: #3e3e3ea3;
   color: white;
+  background-color: rgb(0 0 0 / 9%);
   button {
     width: 100%;
     height: 100%;
@@ -92,7 +86,7 @@ const RightButton = styled.span`
   margin-left: auto;
   width: 5%;
   height: 8rem;
-  background-color: #3e3e3ea3;
+  background-color: rgb(0 0 0 / 9%);
   color: white;
   button {
     width: 100%;
@@ -105,14 +99,12 @@ const RightButton = styled.span`
 `;
 
 const SliderContainer = styled.div`
-  /* background-color: red; */
   width: 100%;
   height: 15rem;
   align-items: center;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
-  /* padding-left: 3rem; */
   margin-bottom: 5rem;
 `;
 
