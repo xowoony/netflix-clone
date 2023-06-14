@@ -69,14 +69,13 @@ const Slider = styled.span`
 const Row = styled(motion.span)`
   display: grid;
   grid-template-columns: repeat(6, 1fr);
-  margin-left: 3rem;
   gap: 5px;
-  position: absolute;
-  width: 89rem;
+  position: relative;
+  width: 116%;
 `;
 
 const LeftButton = styled.span`
-  width: 3rem;
+  width: 5%;
   height: 8rem;
   background-color: #3e3e3ea3;
   color: white;
@@ -91,7 +90,7 @@ const LeftButton = styled.span`
 `;
 const RightButton = styled.span`
   margin-left: auto;
-  width: 3rem;
+  width: 5%;
   height: 8rem;
   background-color: #3e3e3ea3;
   color: white;
@@ -477,7 +476,6 @@ function Home() {
       ) : (
         <>
           <Banner
-            
             $bgPhoto={makeImagePath(data?.results[0].backdrop_path || "")}
           >
             <Title>{data?.results[0].title}</Title>
@@ -546,7 +544,17 @@ function Home() {
             <SliderContainer>
               <AnimatePresence initial={false} onExitComplete={toggleLeaving}>
                 <LeftButton>
-                  <button>좌</button>
+                  <button>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      height="1em"
+                      viewBox="0 0 320 512"
+                      fill="white"
+                      fontSize="1.3rem"
+                    >
+                      <path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256 246.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z" />
+                    </svg>
+                  </button>
                 </LeftButton>
                 <Row
                   initial={{ x: width + 10 }} // variants를 없애고 컴포넌트에 직접 initial, animate, exit prop을 전달하여 슬라이드 겹침 현상을 해결
@@ -585,7 +593,17 @@ function Home() {
                     ))}
                 </Row>
                 <RightButton>
-                  <button onClick={increaseIndex}>우</button>
+                  <button onClick={increaseIndex}>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      height="1em"
+                      viewBox="0 0 320 512"
+                      fill="white"
+                      fontSize="1.3rem"
+                    >
+                      <path d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z" />
+                    </svg>
+                  </button>
                 </RightButton>
               </AnimatePresence>
             </SliderContainer>
