@@ -1,5 +1,10 @@
 import { useQuery } from "react-query";
-import { IGetMoviesNowPlayingResult, getMovieNowPlaying } from "./api";
+import {
+  IGetMoviesNowPlayingResult,
+  IGetTvTopRatedResult,
+  getMovieNowPlaying,
+  getTvTopRated,
+} from "./api";
 import { styled } from "styled-components";
 import { makeImagePath } from "../utils";
 import { motion, AnimatePresence, useScroll } from "framer-motion";
@@ -43,21 +48,53 @@ const Title = styled.h2`
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.35);
 `;
 
+const SliderTitle = styled.div`
+  font-size: 1.4vw;
+  font-weight: 400;
+  margin-bottom: 1rem;
+  color: rgb(229, 229, 229);
+  position: relative;
+  top: -107px;
+  left: 3rem;
+`;
+
 // 슬라이더
 const Slider = styled.div`
   position: relative;
-  top: -90px;
-  margin-left: 60px;
-  margin-right: 60px;
+  top: -157px;
+  width: 88rem;
 `;
 
 // 슬라이더 row
 const Row = styled(motion.div)`
   display: grid;
   grid-template-columns: repeat(6, 1fr);
+  margin-left: 3rem;
   gap: 5px;
   position: absolute;
   width: 100%;
+`;
+
+const LeftButton = styled.div``;
+const RightButton = styled.div`
+  margin-right: 3rem;
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  width: 100%;
+`;
+
+const SliderContainer = styled.div`
+  /* background-color: red; */
+  width: 100%;
+  height: 15rem;
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  /* padding-left: 3rem; */
+  margin-bottom: 5rem;
 `;
 
 const Overview = styled(motion.p)`
@@ -475,60 +512,69 @@ function Home() {
               </InfoButton>
             </ButtonContainer>
           </Banner>
+          <SliderTitle
+            style={{
+              fontSize: "1.4vw",
+              fontWeight: 400,
+              marginBottom: "1rem",
+              color: "#E5E5E5",
+            }}
+          >
+            지금 뜨는 콘텐츠
+          </SliderTitle>
           <Slider>
-            <div
-              style={{
-                fontSize: "1.4vw",
-                fontWeight: 400,
-                marginBottom: "1rem",
-                color: "#E5E5E5",
-              }}
-            >
-              지금 뜨는 콘텐츠
-            </div>
+            <SliderContainer>
+              <LeftButton>
+                <button>왼</button>
+              </LeftButton>
+              <AnimatePresence initial={false} onExitComplete={toggleLeaving}>
+                <Row
+                  initial={{ x: width + 10 }} // variants를 없애고 컴포넌트에 직접 initial, animate, exit prop을 전달하여 슬라이드 겹침 현상을 해결
+                  animate={{ x: 0 }}
+                  exit={{ x: -width - 10 }}
+                  transition={{ type: "tween", duration: 1 }}
+                  key={index} // key만 바꿔줌. key가 변경되면 새로운 Row가 만들어졌다고 생각함.
+                  // 그리고 원래 있던 Row는 파괴된다.
+                >
+                  {/* slice(1) 을 해주는 이유는 이미 홈의 배경화면으로 쓴 사진은 제외시켜주어야 하기 때문. */}
+                  {/* offset*index에서 index는 페이지임. 0, 1, 2, 3 이런식으로 증가함. */}
+                  {/* index가 너무 높아지면 문제가 생김. 영화 갯수에 한계가 있기 때문 */}
+                  {/* 페이징 */}
+                  {data?.results
+                    .slice(1)
+                    .slice(offset * index, offset * index + offset)
+                    .map((movie) => (
+                      <Box
+                        layoutId={movie.id + ""} // + "" 작성으로 string으로 변환 (movie.id는 number이기 때문)
+                        key={movie.id}
+                        variants={boxVariants}
+                        whileHover="hover" // hover시 1.3배
+                        initial="normal"
+                        onClick={() => onBoxClicked(movie.id)}
+                        transition={{ type: "tween" }}
+                        $bgPhoto={makeImagePath(movie.backdrop_path, "w500")} // 영화 슬라이드 사진 w500 작성으로 크기 조절
+                      >
+                        <BoxInfoTitle>
+                          <h4>{movie.title}</h4>
+                        </BoxInfoTitle>
+                        {/* <Info /> 부모인 Box 의 whileHover도 상속됨 */}
+                        <Info variants={infoVariants}>
+                          <h4>{movie.title}</h4>
+                        </Info>
+                      </Box>
+                    ))}
+                </Row>
+              </AnimatePresence>
+              <RightButton>
+                <button>우</button>
+              </RightButton>
+            </SliderContainer>
             {/* 슬라이더. variants 적용 */}
             {/* Row를 AnimatePresence로 감싸서 key를 넘겨주어 render해줌. */}
             {/* onExitComplete에 함수를 넣으면 exit이 끝났을 때 실행됨 */}
             {/* initial을 false로 주면 처음 home에 들어왔을때 슬라이드가 움직이지 않고 고정되어 있음. */}
-            <AnimatePresence initial={false} onExitComplete={toggleLeaving}>
-              <Row
-                initial={{ x: width + 10 }} // variants를 없애고 컴포넌트에 직접 initial, animate, exit prop을 전달하여 슬라이드 겹침 현상을 해결
-                animate={{ x: 0 }}
-                exit={{ x: -width - 10 }}
-                transition={{ type: "tween", duration: 1 }}
-                key={index} // key만 바꿔줌. key가 변경되면 새로운 Row가 만들어졌다고 생각함.
-                // 그리고 원래 있던 Row는 파괴된다.
-              >
-                {/* slice(1) 을 해주는 이유는 이미 홈의 배경화면으로 쓴 사진은 제외시켜주어야 하기 때문. */}
-                {/* offset*index에서 index는 페이지임. 0, 1, 2, 3 이런식으로 증가함. */}
-                {/* index가 너무 높아지면 문제가 생김. 영화 갯수에 한계가 있기 때문 */}
-                {/* 페이징 */}
-                {data?.results
-                  .slice(1)
-                  .slice(offset * index, offset * index + offset)
-                  .map((movie) => (
-                    <Box
-                      layoutId={movie.id + ""} // + "" 작성으로 string으로 변환 (movie.id는 number이기 때문)
-                      key={movie.id}
-                      variants={boxVariants}
-                      whileHover="hover" // hover시 1.3배
-                      initial="normal"
-                      onClick={() => onBoxClicked(movie.id)}
-                      transition={{ type: "tween" }}
-                      $bgPhoto={makeImagePath(movie.backdrop_path, "w500")} // 영화 슬라이드 사진 w500 작성으로 크기 조절
-                    >
-                      <BoxInfoTitle>
-                        <h4>{movie.title}</h4>
-                      </BoxInfoTitle>
-                      {/* <Info /> 부모인 Box 의 whileHover도 상속됨 */}
-                      <Info variants={infoVariants}>
-                        <h4>{movie.title}</h4>
-                      </Info>
-                    </Box>
-                  ))}
-              </Row>
-            </AnimatePresence>
           </Slider>
+
           {/* 영화정보 팝업 - url이 있을 경우에만 (영화 클릭시에만) 나타나게. */}
           <AnimatePresence>
             {bigMovieMatch ? (

@@ -1,6 +1,6 @@
 const API_KEY = "e03a93d879218d0e8080eba916c8afdf";
 const BASE_PATH = "https://api.themoviedb.org/3/";
-// 
+//
 const LANGUAGE = "ko-KO";
 const REGION = "KR";
 const TAIL_PATH = `api_key=${API_KEY}&language=${LANGUAGE}&region=${REGION}`;
@@ -19,6 +19,22 @@ interface IMovie {
   release_date: string;
 }
 
+interface ITv {
+  backdrop_path: string;
+  first_air_date: string;
+  genre_ids: [];
+  id: number;
+  name: string;
+  origin_country: [];
+  original_language: string;
+  original_name: string;
+  overview: string;
+  popularity: number;
+  poster_path: string;
+  vote_average: number;
+  vote_count: number;
+}
+
 // GetMoviesResult(getMovies의 결과) 인터페이스 객체
 export interface IGetMoviesNowPlayingResult {
   dates: {
@@ -31,16 +47,23 @@ export interface IGetMoviesNowPlayingResult {
   total_results: number;
 }
 
-// api fetch
-// export function getMovies() {
-//   return fetch(`${BASE_PATH}/movie/now_playing?api_key=${API_KEY}`).then(
-//     (response) => response.json()
-//   );
-// }
+export interface IGetTvTopRatedResult {
+  page: number;
+  results: ITv[];
+  total_pages: number;
+  total_results: number;
+}
 
 // Movies - NowPlaying
 export function getMovieNowPlaying() {
   return fetch(`${BASE_PATH}/movie/now_playing?${TAIL_PATH}`).then((response) =>
+    response.json()
+  );
+}
+
+// tvTopRated
+export function getTvTopRated() {
+  return fetch(`${BASE_PATH}/tv/top_rated?${TAIL_PATH}`).then((response) =>
     response.json()
   );
 }
