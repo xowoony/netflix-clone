@@ -119,6 +119,13 @@ const Overview = styled(motion.p)`
   margin-bottom: 1rem;
 `;
 
+// popular Slider
+const PopularSlider = styled.div``;
+
+const PopularRow = styled(motion.div)``;
+
+const PopularBox = styled(motion.div)``;
+
 const ButtonContainer = styled.div`
   align-items: center;
   display: flex;
@@ -275,7 +282,7 @@ const Overlay = styled(motion.div)`
 const BigMovie = styled(motion.div)`
   position: absolute;
   width: 850px;
-  height: 700px;
+  /* height: 700px; */
   border-radius: 5px;
   overflow: hidden;
   background-color: ${(props) => props.theme.black.veryDark};
@@ -298,6 +305,8 @@ const BigCover = styled.div`
 
 const BigInfoContainer = styled.div`
   margin: 0 3rem 0 3rem;
+  margin-top: 3rem;
+  margin-bottom: 6rem;
 `;
 
 const BigButtonContainer = styled.div`
@@ -604,7 +613,6 @@ function Home() {
             {/* onExitComplete에 함수를 넣으면 exit이 끝났을 때 실행됨 */}
             {/* initial을 false로 주면 처음 home에 들어왔을때 슬라이드가 움직이지 않고 고정되어 있음. */}
           </Slider>
-
           {/* 영화정보 팝업 - url이 있을 경우에만 (영화 클릭시에만) 나타나게. */}
           <AnimatePresence>
             {bigMovieMatch ? (
